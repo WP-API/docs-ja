@@ -59,10 +59,6 @@
               "required": false,
               "description": "Limit result set to that of a particular comment karma."
             },
-            "offset": {
-              "required": false,
-              "description": "Offset the result set by a specific number of comments."
-            },
             "order": {
               "required": false,
               "default": "asc",
@@ -75,15 +71,6 @@
             "orderby": {
               "required": false,
               "default": "date_gmt",
-              "enum": [
-                "date",
-                "date_gmt",
-                "id",
-                "include",
-                "post",
-                "parent",
-                "type"
-              ],
               "description": "Sort collection by object attribute."
             },
             "parent": {
@@ -124,7 +111,7 @@
               "default": "comment",
               "description": "Limit result set to comments assigned a specific type."
             },
-            "author": {
+            "user": {
               "required": false,
               "description": "Limit result set to comments assigned to a specific user id."
             }

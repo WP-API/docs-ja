@@ -55,10 +55,6 @@
               ],
               "description": "Limit result set to specific ids."
             },
-            "offset": {
-              "required": false,
-              "description": "Offset the result set by a specific number of items."
-            },
             "order": {
               "required": false,
               "default": "desc",
@@ -82,21 +78,7 @@
             },
             "parent": {
               "required": false,
-              "default": [
-
-              ],
-              "description": "Limit result set to those of particular parent ids."
-            },
-            "parent_exclude": {
-              "required": false,
-              "default": [
-
-              ],
-              "description": "Limit result set to all items except those of a particular parent id."
-            },
-            "slug": {
-              "required": false,
-              "description": "Limit result set to posts with a specific slug."
+              "description": "Limit result set to that of a specific parent id."
             },
             "status": {
               "required": false,
@@ -144,7 +126,7 @@
             "excerpt": {
               "required": false
             },
-            "featured_media": {
+            "featured_image": {
               "required": false
             },
             "comment_status": {
@@ -389,8 +371,8 @@
               }
             }
           },
-          "featured_media": {
-            "description": "The id of the featured media for the object.",
+          "featured_image": {
+            "description": "The id of the featured image for the object.",
             "type": "integer",
             "context": [
               "view",
@@ -511,7 +493,7 @@
             "excerpt": {
               "required": false
             },
-            "featured_media": {
+            "featured_image": {
               "required": false
             },
             "comment_status": {
@@ -768,8 +750,8 @@
               }
             }
           },
-          "featured_media": {
-            "description": "The id of the featured media for the object.",
+          "featured_image": {
+            "description": "The id of the featured image for the object.",
             "type": "integer",
             "context": [
               "view",
@@ -1051,8 +1033,8 @@
           }
         }
       },
-      "featured_media": {
-        "description": "The id of the featured media for the object.",
+      "featured_image": {
+        "description": "The id of the featured image for the object.",
         "type": "integer",
         "context": [
           "view",

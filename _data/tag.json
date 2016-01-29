@@ -1,6 +1,246 @@
 {
   "name": "tag",
   "routes": {
+    "/wp/v2/posts/<post_id>/tags": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "view",
+                "embed"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response."
+            },
+            "order": {
+              "required": false,
+              "default": "asc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Order sort attribute ascending or descending."
+            },
+            "orderby": {
+              "required": false,
+              "default": "name",
+              "enum": [
+                "count",
+                "name",
+                "slug",
+                "term_order"
+              ],
+              "description": "Sort collection by object attribute."
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "tag",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "count": {
+            "description": "Number of published posts for the object.",
+            "type": "integer",
+            "context": [
+              "view"
+            ],
+            "readonly": true
+          },
+          "description": {
+            "description": "A human-readable description of the object.",
+            "type": "string",
+            "context": [
+              "view"
+            ]
+          },
+          "link": {
+            "description": "URL to the object.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "name": {
+            "description": "The title for the object.",
+            "type": "string",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "required": true
+          },
+          "slug": {
+            "description": "An alphanumeric identifier for the object unique to its type.",
+            "type": "string",
+            "context": [
+              "view",
+              "embed"
+            ]
+          },
+          "taxonomy": {
+            "description": "Type attribution for the object.",
+            "type": "string",
+            "enum": [
+              "category",
+              "post_tag",
+              "nav_menu",
+              "link_category",
+              "post_format"
+            ],
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "nicename": "/wp/v2/posts/&lt;post_id&gt;/tags"
+    },
+    "/wp/v2/posts/<post_id>/tags/<term_id>": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "view",
+                "embed"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response."
+            }
+          }
+        },
+        {
+          "methods": [
+            "POST"
+          ],
+          "args": [
+
+          ]
+        },
+        {
+          "methods": [
+            "DELETE"
+          ],
+          "args": {
+            "force": {
+              "required": false,
+              "default": false,
+              "description": "Required to be true, as resource does not support trashing."
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "tag",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "count": {
+            "description": "Number of published posts for the object.",
+            "type": "integer",
+            "context": [
+              "view"
+            ],
+            "readonly": true
+          },
+          "description": {
+            "description": "A human-readable description of the object.",
+            "type": "string",
+            "context": [
+              "view"
+            ]
+          },
+          "link": {
+            "description": "URL to the object.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "name": {
+            "description": "The title for the object.",
+            "type": "string",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "required": true
+          },
+          "slug": {
+            "description": "An alphanumeric identifier for the object unique to its type.",
+            "type": "string",
+            "context": [
+              "view",
+              "embed"
+            ]
+          },
+          "taxonomy": {
+            "description": "Type attribution for the object.",
+            "type": "string",
+            "enum": [
+              "category",
+              "post_tag",
+              "nav_menu",
+              "link_category",
+              "post_format"
+            ],
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "nicename": "/wp/v2/posts/&lt;post_id&gt;/tags/&lt;term_id&gt;"
+    },
     "/wp/v2/tags": {
       "namespace": "wp/v2",
       "methods": [
@@ -50,10 +290,6 @@
               ],
               "description": "Limit result set to specific ids."
             },
-            "offset": {
-              "required": false,
-              "description": "Offset the result set by a specific number of items."
-            },
             "order": {
               "required": false,
               "default": "asc",
@@ -81,15 +317,6 @@
               "required": false,
               "default": false,
               "description": "Whether to hide terms not assigned to any posts."
-            },
-            "post": {
-              "required": false,
-              "default": false,
-              "description": "Limit result set to terms assigned to a specific post."
-            },
-            "slug": {
-              "required": false,
-              "description": "Limit result set to terms with a specific slug."
             }
           }
         },

@@ -55,10 +55,6 @@
               ],
               "description": "Limit result set to specific ids."
             },
-            "offset": {
-              "required": false,
-              "description": "Offset the result set by a specific number of items."
-            },
             "order": {
               "required": false,
               "default": "desc",
@@ -79,10 +75,6 @@
                 "slug"
               ],
               "description": "Sort collection by object attribute."
-            },
-            "slug": {
-              "required": false,
-              "description": "Limit result set to posts with a specific slug."
             },
             "status": {
               "required": false,
@@ -127,7 +119,7 @@
             "excerpt": {
               "required": false
             },
-            "featured_media": {
+            "featured_image": {
               "required": false
             },
             "comment_status": {
@@ -140,12 +132,6 @@
               "required": false
             },
             "sticky": {
-              "required": false
-            },
-            "categories": {
-              "required": false
-            },
-            "tags": {
               "required": false
             }
           }
@@ -370,8 +356,8 @@
               }
             }
           },
-          "featured_media": {
-            "description": "The id of the featured media for the object.",
+          "featured_image": {
+            "description": "The id of the featured image for the object.",
             "type": "integer",
             "context": [
               "view",
@@ -425,22 +411,6 @@
           "sticky": {
             "description": "Whether or not the object should be treated as sticky.",
             "type": "boolean",
-            "context": [
-              "view",
-              "edit"
-            ]
-          },
-          "categories": {
-            "description": "The terms assigned to the object in the category taxonomy.",
-            "type": "array",
-            "context": [
-              "view",
-              "edit"
-            ]
-          },
-          "tags": {
-            "description": "The terms assigned to the object in the post_tag taxonomy.",
-            "type": "array",
             "context": [
               "view",
               "edit"
@@ -514,7 +484,7 @@
             "excerpt": {
               "required": false
             },
-            "featured_media": {
+            "featured_image": {
               "required": false
             },
             "comment_status": {
@@ -527,12 +497,6 @@
               "required": false
             },
             "sticky": {
-              "required": false
-            },
-            "categories": {
-              "required": false
-            },
-            "tags": {
               "required": false
             }
           }
@@ -769,8 +733,8 @@
               }
             }
           },
-          "featured_media": {
-            "description": "The id of the featured media for the object.",
+          "featured_image": {
+            "description": "The id of the featured image for the object.",
             "type": "integer",
             "context": [
               "view",
@@ -824,22 +788,6 @@
           "sticky": {
             "description": "Whether or not the object should be treated as sticky.",
             "type": "boolean",
-            "context": [
-              "view",
-              "edit"
-            ]
-          },
-          "categories": {
-            "description": "The terms assigned to the object in the category taxonomy.",
-            "type": "array",
-            "context": [
-              "view",
-              "edit"
-            ]
-          },
-          "tags": {
-            "description": "The terms assigned to the object in the post_tag taxonomy.",
-            "type": "array",
             "context": [
               "view",
               "edit"
@@ -1069,8 +1017,8 @@
           }
         }
       },
-      "featured_media": {
-        "description": "The id of the featured media for the object.",
+      "featured_image": {
+        "description": "The id of the featured image for the object.",
         "type": "integer",
         "context": [
           "view",
@@ -1124,22 +1072,6 @@
       "sticky": {
         "description": "Whether or not the object should be treated as sticky.",
         "type": "boolean",
-        "context": [
-          "view",
-          "edit"
-        ]
-      },
-      "categories": {
-        "description": "The terms assigned to the object in the category taxonomy.",
-        "type": "array",
-        "context": [
-          "view",
-          "edit"
-        ]
-      },
-      "tags": {
-        "description": "The terms assigned to the object in the post_tag taxonomy.",
-        "type": "array",
         "context": [
           "view",
           "edit"
