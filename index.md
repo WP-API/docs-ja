@@ -8,10 +8,10 @@ include_title: No
 
 	<img src="{{ site.baseurl }}assets/images/banner.jpg" class="banner" />
 
-	<p class="subtitle">Access your WordPress site's data through an easy-to-use HTTP REST API.</p>
+	<p class="subtitle">HTTP REST APIでWordPressを自由自在！</p>
 
 	<a href="https://wordpress.org/plugins/rest-api/" class="download button radius">
-		Download the Plugin
+		ダウンロード
 		<span>(Version 2.0 beta 11, for WordPress 4.4.1+)</span>
 	</a>
 
@@ -24,13 +24,13 @@ include_title: No
 
 </div>
 
-About
+はじめに
 -----
 
-WordPress is moving towards becoming a fully-fledged application framework, and we need new APIs. This project was born to create an easy-to-use, easy-to-understand and well-tested framework for creating these APIs, plus creating APIs for core.
+WordPressはアプリケーションフレームワークへと生まれ変わろうとしています。このプロジェクトは簡単に使えて、簡単に理解てきて、信頼性の高いAPIフレームワークを開発することを目的として生まれました。そしてWordPress本体のAPIを開発することも目的としています。
 
-This plugin provides an easy to use REST API, available via HTTP. Grab your site's data in simple JSON format, including users, posts, taxonomies and more. Retrieving or updating data is as simple as sending a HTTP request.
+このプラグインは簡単に使えるHTTPベースのREST APIを提供します。あなたのサイトのユーザー、投稿、タクソノミー、その他のデータに対してシンプルなHTTPリクエストを送信することで、取り出したりアップデートすることが可能です。
 
-Want to get your site's posts? Simply send a `GET` request to `/wp-json/wp/v2/posts`. Update user with ID 4? Send a `POST` request to `/wp-json/wp/v2/users/4`. Get all posts with the search term "awesome"? `GET /wp-json/wp/v2/posts?search=awesome`. It's that easy.
+投稿を取得したい？ `GET` リクエストを `/wp-json/wp/v2/posts` に送るだけです。 IDが4のユーザーをアップデートしたい? `POST` リクエストを `/wp-json/wp/v2/users/4` に送ってください。 "すげえ！"という単語が含まれるすべての投稿を検索するには、`GET /wp-json/wp/v2/posts?search=awesome` です。 たったこれだけ。簡単です。
 
-The API exposes a simple yet easy interface to WP Query, the posts API, post meta API, users API, revisions API and many more. Chances are, if you can do it with WordPress, WP API will let you do it.
+このAPIは、WordPressの投稿API、メタデータAPI、ユーザーAPIなど、WP Queryのシンプルなインターフェースです。もしあなたがWordPressで何かを始めたいのなら、このAPIがそれを可能にするでしょう。
