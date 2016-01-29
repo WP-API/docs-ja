@@ -1,40 +1,39 @@
 ---
-title: Authentication
+title: 認証
 ---
 
-There are two options for authenticating with the API. The basic choice boils
-down to:
+このAPIにおいては、認証には2つの選択肢があり、基本的に以下のように選びましょう。
 
-* Are you a plugin/theme running on the site? Use **cookie authentication**
-* Are you a desktop/web/mobile client accessing the site externally? Use
-  **OAuth authentication**
+* そのサイトで有効化されたテーマやプラグインから利用するのであれば **クッキー認証**
+* デスクトップアプリ、ウェブアプリ、モバイルアプリなどのサイトの外からアクセスするクライアントから API を利用するのであれば **OAuth 認証**
 
-
-Cookie Authentication
+クッキー認証
 ---------------------
-Cookie authentication is the basic authentication method included with
-WordPress. When you log in to your dashboard, this sets up the cookies correctly
-for you, so plugin and theme developers need only to have a logged-in user.
+クッキー認証は、WordPress に実装された基礎的な認証です。
+管理画面にログインするときには、このクッキー認証が利用されており、ログインするユーザーのクッキーが正しく発行されています。
+したがって、プラグインやテーマ開発者が必要とするのはログインしているユーザーのみとなります。
 
-However, the REST API includes a technique called [nonces][] to avoid [CSRF][] issues.
-This prevents other sites from forcing you to perform actions without explicitly
-intending to do so. This requires slightly special handling for the API.
+しかしながら、REST API では [CSRF][] の問題を解決するために [nonces][] と呼ばれる技術を利用しています。
+そのおかげで、他のサイトを経由して、あなたが明示的に意図していない行動をとってしまうのを防いでいるのですが、
+同時に、API 利用のために少し特殊な操作が必要になります。
 
-For developers using the built-in Javascript API, this is handled automatically
-for you. This is the recommended way to use the API for plugins and themes.
-Custom data models can extend `wp.api.models.Base` to ensure this is sent
-correctly for any custom requests.
+プラグインやテーマの作者がビルトイン Javascript API を利用する場合には、この処理は自動的に行われます（推奨）。
+独自のデータモデルからアクセスする場合には、 `wp.api.models.Base` を継承することで、
+あらゆるカスタムリクエストで nonce がきちんと送信されることが保証されます。
 
+マニュアルで Ajax リクエストを送る場合、nonce は各リクエストで毎回送信する必要があります。 
+送信された nonce は `wp_rest` にセットされたアクションと一緒に利用されます。
+API への nonce の受け渡しは、POST のデータや GET のクエリの `_wpnonce` パラメータ、
+あるいは`X-WP-Nonce` ヘッダーにセットして行います。
 
-For developers making manual Ajax requests, the nonce will need to be passed
-with each request. The API uses nonces with the action set to `wp_rest`. These
-can then be passed to the API via the `_wpnonce` data parameter (either POST data or in the query for GET requests), or via the `X-WP-Nonce` header.
+Note: Until recently, most software had spotty support for `DELETE` requests. For instance, PHP doesn't transform the request body of a `DELETE` request into a super global. 従って、ヘッダーとして nonce を供給するやり方が最も信頼できるアプローチとなります。
 
-Note: Until recently, most software had spotty support for `DELETE` requests. For instance, PHP doesn't transform the request body of a `DELETE` request into a super global. As such, supplying the nonce as a header is the most reliable approach.
+この認証は WordPress のクッキーに依存しているということは覚えておきましょう。
+このクッキー認証が利用できるのは、REST API が WordPress の内部から使われていて、
+かつ、ユーザーがログインしている時のみであるということです。
+さらに、そのログインユーザーが、実行しようとしているアクションに必要な権限を与えられているということも条件となります。
 
-It is important to keep in mind that this authentication method relies on WordPress cookies. As a result this method is only applicable when the REST API is used inside of WordPress and the current user is logged in. In addition, the current user must have the appropriate capability to perform the action being performed.
-
-As an example, this is how the built-in Javascript client creates the nonce:
+以下は、ビルトインの Javascript クライアントが nonce を生成する例です。
 
 ```php
 <?php
@@ -53,7 +52,7 @@ options.beforeSend = function(xhr) {
 };
 ```
 
-Here is an example of editing the title of a post, using jQuery AJAX:
+以下は、jQuery AJAX を使って投稿のタイトルを書き換える例です。
 
 ```javascript
 $.ajax( {
@@ -74,23 +73,21 @@ $.ajax( {
 [CSRF]: http://en.wikipedia.org/wiki/Cross-site_request_forgery
 
 
-OAuth Authentication
+OAuth 認証
 --------------------
-OAuth authentication is the main authentication handler used for external
-clients. With OAuth authentication, users still only ever log in via the normal
-WP login form, and then authorize clients to act on their behalf. Clients are
-then issued with OAuth tokens that enable them to access the API. This access
-can be revoked by users at any point.
+OAuth 認証は外部クライアントのための認証方法です。
+OAuth 認証でも、ユーザーは通常の WordPress ログイン画面を通じてのみログインを行い、
+その後、自身に代わって処理を行うクライアントを認証します。
+クライアントには、OAuth トークンが発行され、API へのアクセスが許可されます。このアクセス権はユーザー側からいつでも取り消すことができます。
 
-OAuth authentication uses the [OAuth 1.0a specification][oauth] (published as
-RFC5849) and requires installing the [OAuth plugin][oauth-plugin] on the site.
-(This plugin will be included with the API when merged into core.)
+OAuth 認証は、[OAuth 1.0a specification][oauth] (published as
+RFC5849) を利用しており、[OAuth plugin][oauth-plugin] がサイトで
+有効化されていることが必要です（このプラグインは将来的にコアにマージされます）。
 
-Once you have WP API and the OAuth server plugins activated on your server,
-you'll need to create a "consumer". This is an identifier for the application,
-and includes a "key" and "secret", both needed to link to your site.
+WP API と OAuth サーバー用のプラグインを有効化したら、コンシューマを作成しましょう。
+コンシューマは、アプリケーションの識別子であり、サイトとリンクするために必要な key と secret からなります。
 
-To create the consumer, run the following on your server:
+コンシューマの作成には、サーバで以下を実行します。
 
 ```bash
 $ wp oauth1 add
@@ -100,13 +97,10 @@ Key: sDc51JgH2mFu
 Secret: LnUdIsyhPFnURkatekRIAUfYV7nmP4iF3AVxkS5PRHPXxgOW
 ```
 
-This key and secret is your consumer key and secret, and needs to be used
-throughout the authorization process. Currently no UI exists to manage this,
-however this is planned for a future release.
+上記の key と secret を認証のプロセス全体で利用します。
+現状 UI は無いのですが、将来的に導入されます。
 
-For examples on how to use this, both the [CLI client][client-cli] and the
-[API console][api-console] make use of the OAuth functionality, and are a great
-starting point.
+利用方法の事例として、[CLI client][client-cli] および、 [API console][api-console] を見てみるといいでしょう。
 
 [oauth]: http://tools.ietf.org/html/rfc5849
 [oauth-plugin]: https://github.com/WP-API/OAuth1
@@ -114,22 +108,19 @@ starting point.
 [api-console]: https://github.com/WP-API/api-console
 
 
-Basic Authentication
+ベーシック認証
 --------------------
-Basic authentication is an optional authentication handler for external clients.
-Due to the complexity of OAuth authentication, basic authentication can be
-useful during development. However, Basic authentication requires passing your
-username and password on every request, as well as giving your credentials to
-clients, so it is heavily discouraged for production use.
+ベーシック認証は、外部クライアントから利用できる認証の代替的な方法です。
+OAuth 認証は複雑なので、開発段階ではベーシック認証が便利でしょう。
+ただし、ベーシック認証ではすべてのリクエストにおいてユーザー名とパスワードを送る必要があり、
+本番の環境で利用することは超非推奨です。
 
-Basic authentication uses [HTTP Basic Authentication][http-basic] (published as
-RFC2617) and requires installing the [Basic Auth plugin][basic-auth-plugin].
+ベーシック認証は、 [HTTP Basic Authentication][http-basic] (published as RFC2617) を利用しており [Basic Auth plugin][basic-auth-plugin] プラグインの有効化が必要です。
 
-To use Basic authentication, simply pass the username and password with each
-request through the `Authorization` header. This value should be encoded (using base64 encoding) as per
-the HTTP Basic specification.
+ベーシック認証の利用時、ユーザー名とパスワードは各リクエストの `Authorization` ヘッダーを通じて渡します。
+この値は、HTTP Basic 認証の仕様に従い、base64 でエンコードされるべきです。
 
-This is an example of how to update a post, using Basic authentication, via the WordPress HTTP API:
+以下は、ベーシック認証による、WordPress のHTTP API を使った投稿の更新の例です。
 
 ```php
 $headers = array (
