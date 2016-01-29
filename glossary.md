@@ -1,22 +1,18 @@
 ---
-title: Glossary
+title: 用語集
 ---
 
-New to REST APIs? Get up to speed with phrases used throughout our documentation.
+このドキュメンテーションの中でよく使われているフレーズを手っ取り早く理解しましょう。
 
-## Controller
+## コントローラー
 
-[Model-View-Controller][MVC] is a standard pattern in software development. If
-you aren't already familiar it, you should do a bit of reading to get up
-to speed.
+[Model-View-Controller][MVC] はソフトウエア開発の標準的な開発手法です。もしあなたがまだ詳しくないのなら、さらっと読んでおくと理解が早まるでしょう。
 
-Within WP-API, we've adopted the controller concept to have a standard pattern
-for the classes representing our resource endpoints. All resource endpoints
-extend `WP_REST_Controller` to ensure they implement common methods.
+WP-APIでは、エンドポイントで使用されるクラスの設計で、このコントローラーの考え方を踏襲しており、すべてのエンドポイントは `WP_REST_Controller` クラスを継承し、共通メソッドの信頼性を確保しています。
 
-[MVC]: http://en.wikipedia.org/wiki/Model-view-controller
+[MVC]: http://ja.wikipedia.org/wiki/Model-view-controller
 
-## HEAD, GET, POST, PUT, and DELETE Requests
+## HEAD, GET, POST, PUT, そして DELETE リクエスト
 
 These "HTTP verbs" represent the _type_ of action a HTTP client might perform
 against a resource. For instance, `GET` requests are used to fetch a Post's
