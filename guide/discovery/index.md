@@ -1,70 +1,66 @@
 ---
-title: Discovery
+title: 探索
 ---
 
-When your client talks to an unknown site, you'll need to discover what the
-site is capable of and how the site is configured. There are a couple of steps
-for this, depending on what you need to discover.
+クライアントが未知のサイトにアクセスする際、
+そのサイトでは何が可能でどのように設定されているのかを知る必要があります。
+幾つかのステップで探索することができます。
 
 
-Discovering the API
+API の探索
 -------------------
 
-The first step of connecting to a site is finding out whether the site has the
-API enabled. Typically, you'll be working with URLs from user input, so the
-site you're accessing could be anything. The discovery step lets you verify
-the API is available, as well as indicating how to access it.
+あるウェブサイトに接続しようとするときの最初のステップは、対象のサイトで API が有効化されているかどうかを確かめることです。
+Typically, you'll be working with URLs from user input, so the site you're accessing could be anything. 
+探索の手順を踏むことで、API が利用可能であるかを確かめ、アクセス方法を知ることができます。
 
-### Link Header
+### リンクヘッダー
 
-The preferred way to handle discovery is to send a HEAD request to the
-supplied address. The REST API automatically adds a Link header to all
-frontend pages that looks like the following:
+探索を始めるのに好ましい手法は、URL に対して HEAD リクエストを送信することです。
+REST API はフロントエンドのすべてのページに自動的に以下のような LINK ヘッダーを追記します。
 
 ```
 Link: <http://example.com/wp-json/>; rel="https://api.w.org/"
 ```
 
-This URL points to the root route (`/`) of the API, which is then used for
-further discovery steps.
+この URL は API の root route （ルーティングの根っこ）となる `/` を指し示しており、
+これを次の探索ステップで使っていきます。
 
-For sites without "pretty permalinks" enabled, `/wp-json/` isn't automatically
-handled by WordPress. This means that normal/default WordPress permalinks will
-be used instead. These headers look more like this:
+Pretty Permalinks が有効化されていないサイトでは、
+WordPress が `/wp-json/` を扱うことができません。従って、
+WordPress のデフォルトのパーマリンクが代わりに使われ、リンクヘッダーは以下のようになります。
 
 ```
 Link: <http://example.com/?rest_route=/>; rel="https://api.w.org/"
 ```
 
-Clients should keep this variation in mind and ensure that both routes can be
-handled seamlessly.
+クライアントを作るときには、このバリエーションがあることを念頭に置き、
+どちらのルート(route)であっても動くようにすべきです。
 
-This autodiscovery can be applied to any URL served by a WordPress
-installation, so no pre-processing on user input needs to be added. Since this
-is a HEAD request, the request should be safe to send blindly to servers
-without worrying about causing side-effects.
+この探索ステップは WordPress が動いているすべてのサイトのすべて URL に対して有効な飲んで、
+ユーザーの入力を事前に編集する必要はありません。
+HEAD リクエストなので盲目的にいろんなサーバにリクエストを送っても副作用を心配する必要もありません。
 
 <div class="note warning">
 {% capture note %}
-Note: The relation (`rel`) is `https://api.w.org/` for WordPress 4.4 and later.
-During the plugin's development period, this was instead `https://github.com/WP-API/WP-API`.
-New code should use the new relation exclusively.
+注: `rel` 要素は WordPress 4.4 以降では `https://api.w.org/` となります。
+本プラグインの開発期間中は、`https://github.com/WP-API/WP-API` となっていました。
+新しくコードを書くときには新しい方だけを利用してください。
 {% endcapture %}
 
 {{ note | markdownify }}
 </div>
 
-### `<link>` Element
+### `<link>` 要素
 
-For clients with a HTML parser, or running in the browser, the equivalent of
-the Link header is included in the `<head>` of frontend pages through a
-`<link>` element:
+HTML をパースできるクライアント、あるいはブラウザの場合、
+LINK ヘッダーと同じように利用できるのは html の `<head>` に含まれる `<link>` 要素となります。
 
 ```html
 <link rel='https://api.w.org/' href='http://example.com/wp-json/' />
 ```
 
-In-browser Javascript can access this via the DOM:
+ブラウザで動いている Javascript であれば DOM から取得できます。
 
 ```js
 // jQuery method
@@ -79,10 +75,9 @@ var link = Array.prototype.filter.apply( links, function ( item ) {
 var api_root = link[0].href;
 ```
 
-For in-browser clients, or clients without access to HTTP headers, this may be
-a more usable way of discovering the API. This is similar to Atom/RSS feed
-discovery, so existing code for that purpose may also be automatically
-adapted instead.
+ブラウザ内のクライアント、あるいは HTTP ヘッダーにアクセス出来ないクライアントでは
+この方法のほうが API 探索が容易と思われます。
+Atom / RSS フィードの発見方法に似てますので、既存のコードを利用したらいいと思います。
 
 ### RSD (Really Simple Discovery)
 
@@ -131,12 +126,12 @@ as a progressive enhancement to the codebase, this avoids needing to support
 different forms of discovery.
 
 
-Authentication Discovery
+認証の探索
 ------------------------
 
-Discovery is also available for authentication methods available via the API.
-The API root's response is an object describing the API, which includes an
-`authentication` key:
+認証方法を探してみましょう。
+API のルート(root)のレスポンスは API 自身について記述するオブジェクトであり、
+`authentication` キーを含んでいます。
 
 ```json
 {
@@ -154,23 +149,19 @@ The API root's response is an object describing the API, which includes an
 }
 ```
 
-The `authentication` value is a map (associative array) of authentication
-method ID to authentication options. The options available here are specific
-to the authentication method itself. See the [authentication documentation][]
-for the options for specific authentication methods.
+この `authentication` の値は、利用可能な認証メソッドの ID の map （連想配列）になっています。
+The options available here are specific to the authentication method itself. 
+認証についての詳しい方法は、 [authentication ドキュメント][] のページヘ進んでください。
 
-[authentication documentation]: /guide/authentication/
+[authentication ドキュメント]: /guide/authentication/
 
 Extension Discovery
 -------------------
 
-Once you've discovered the API, the next step is check what the API supports.
-The index of the API exposes the `namespaces` item, which contains the
-extensions to the API that are supported.
+API があることを発見したら、次は API が何をサポートしているのかを見てみましょう。
+API のインデックスは、 `namespace` という項目を開示しており、API がサポートしているエクステンションがリストされています。
 
-For regular WordPress (4.4) sites, only the base API infrastructure is
-available, not the full API with endpoints. This also includes the oEmbed
-endpoints:
+普通の WordPress（ver.4.4）のサイトですと、API のインフラ部分のみが利用可能で API の全エンドポイントは利用できません。oEmbedのエンドポイントは含まれます。
 
 ```json
 {
@@ -181,8 +172,7 @@ endpoints:
 }
 ```
 
-Sites with the full API available (i.e. with the REST API plugin installed) will
-have the `wp/v2` item in `namespaces` as well:
+全 API が利用できるサイト（REST API プラグインが有効化されてるなど）であれば、wp/v2 という項目が `namespaces` に含まれます。
 
 ```json
 {
@@ -194,21 +184,16 @@ have the `wp/v2` item in `namespaces` as well:
 }
 ```
 
-Before attempting to use any of the core endpoints, you should be sure to check
-that the API is supported by checking for `wp/v2` support. WordPress 4.4 will
-enable the API infrastructure for all sites, but will **not** include the core
-endpoints under `wp/v2`.
+これら、コアエンドポイントを利用する前に、API がサポートされているかを `wp/v2` をチェックすることで確認すべきです。WordPress 4.4 は API のインフラ部分は有効化しますが、 wp/v2 配下のコアエンドポイント群は**含みません**。
 
-This same mechanism can be used for detecting support for any plugins that
-support the REST API. For example, take a plugin which registers the
-following route:
+同じメカニズムは、REST API をサポートしているプラグインを検知するのにも利用できます。たとえば以下のようなルート(routeの方)を登録しているプラグインがあったとしましょう。
 
 ```php
 <?php
 register_rest_route( 'testplugin/v1', '/testroute', array( /* ... */ ) );
 ```
 
-This would add the `testplugin/v1` namespace to the index:
+そうすると、 `testplugin/v1` というネームスペースがインデックスに追加されます。
 
 ```json
 {
