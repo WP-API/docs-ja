@@ -1,10 +1,10 @@
 ---
-title: WP REST API v2 Resources
+title: WP REST API v2 リソース
 ---
-Resources
+リソース
 =========
 
-Client Libraries
+クライアント・ライブラリ
 ----------------
 
 * [Backbone.js client][]
@@ -21,17 +21,17 @@ Client Libraries
 [C# client]: https://github.com/maxcutler/wp-api-csharp
 [Mixradio API client for Windows Phone]: https://github.com/mixradio/wp-api-client
 
-Authentication
+認証
 --------------
 
-* [OAuth 1.0a server plugin][]
-* [Basic Authentication][]
+* [OAuth 1.0aサーバープラグイン][]
+* [ベーシック認証][]
 
-[OAuth 1.0a server plugin]: https://github.com/WP-API/OAuth1
-[Basic Authentication]: https://github.com/WP-API/Basic-Auth
+[OAuth 1.0aサーバープラグイン]: https://github.com/WP-API/OAuth1
+[ベーシック認証]: https://github.com/WP-API/Basic-Auth
 
 
-Tools
+ツール
 -----
 
 * [WP-CLI client][]
@@ -45,7 +45,7 @@ Tools
 [API client UI]: https://github.com/modemlooper/Api-Clients
 
 
-WordPress Plugin Integrations
+WordPress Plugin インテグレーション
 ------------------------------
 * [BuddyPress][]
 * [bbPress][]
@@ -61,7 +61,7 @@ WordPress Plugin Integrations
 
 
 
-Slides & Videos
+スライド＆ビデオ
 ---------------
 
 * [Rachel Baker: Put Your Content to REST With WP-API][]
@@ -78,7 +78,7 @@ Slides & Videos
 [K. Adam White: WordPress in Weird Places]: http://kadamwhite.github.io/talks/2014/wcsf-node-wp/#/
 [Ryan McCue: The WordPress REST API (WCNYC)]: https://wordpress.tv/2014/11/19/ryan-mccue-the-wordpress-rest-api/
 
-REST Info & Tools
+RESTについての情報とツール
 -----------------
 
 * [More About REST][]
@@ -91,19 +91,19 @@ REST Info & Tools
 [Paw HTTP App for OSX]: http://luckymarmot.com/paw
 [JSONView Chrome Extension]: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
-Tutorials
+チュートリアル
 ---------
-* [An Overview of the WordPress JSON API][] Detailed Overview of the REST API projects and helpful links.
-* [Using the WordPress REST API in a mobile app][] A detailed tutorial with complete example code on the basics of using the REST API in a app outside of WordPress.
+* [An Overview of the WordPress JSON API][] REST APIについての詳細な概要とお役立ちリンク集。（英語）
+* [Using the WordPress REST API in a mobile app][] WordPressの外部からREST APIを利用するための完全なコード例がついた詳しいチュートリアル。（英語）
 * [WordPress REST API][] A basic introduction to the REST API.
-* [A Look at the WordPress HTTP API][] Part of a series on the WordPress HTTP API, which can be used to interact with the WordPress REST API from within WordPress.
-* [Designing a class: WordPress API client][] Guide to building a class for making GET requests to the REST API's users end point via the WordPress HTTP API.
-* [An Introduction To The JSON REST API][] An introduction to interacting with the REST API from inside of WordPress, showing how to retrieve and display data from the current site or a remote site via GET requests.
-* [An Introduction To The JSON REST API Part2][] More information on how interact with the REST API from inside of  WordPress, showing how to create posts using data from a remote site, or create posts on a remote site.
-* [Using AngularJS And JSON API In Your WordPress Theme][] An introduction to using the REST API, and Angular JS in a WordPress theme.
-* [Working with Meta Data Using the JSON REST API][] Using the REST API to work with post meta data. 
-* [Working with Taxonomies Using the JSON REST API][] Using the REST API to work with taxonomies.
-* [Processing Forms with AJAX Using the JSON REST API][] A guide to using the REST API to edit posts using AJAX.
+* [A Look at the WordPress HTTP API][] WordPress HTTP APIに関する連載の一部。WordPress内部でWordPressのREST APIを利用するのに役立つ。（英語）
+* [Designing a class: WordPress API client][] WordPrssのHTTP APIを利用してユーザーのエンドポイントにGETリクエストを投げるクラスを作るためのガイド。（英語）
+* [An Introduction To The JSON REST API][] WordPressの内部からREST APIを利用するためのレッスンで、GETリクエストで外部または内部のサイトからデータを取得して表示するにはどうすればよいかがわかる。（英語）
+* [An Introduction To The JSON REST API Part2][] WordPressの内部からREST APIを利用するにはどうしたらいいかについての詳しい情報。外部のサイトのデータから投稿を作成する方法、外部のサイトにデータを作成する方法がわかる。（英語）
+* [Using AngularJS And JSON API In Your WordPress Theme][] WordPressテーマでAngular JSを利用してREST APIを利用する方法。（英語）
+* [Working with Meta Data Using the JSON REST API][] REST APIを使って投稿のメタデータを操作する。（英語）
+* [Working with Taxonomies Using the JSON REST API][] REST APIを使ってタクソノミーを操作する。（英語）
+* [Processing Forms with AJAX Using the JSON REST API][] AJAXで投稿を編集するためのガイド。（英語）
 
 [An Overview of the WordPress JSON API]:http://webdevstudios.com/2014/10/16/an-overview-of-wordpress-json-api/
 [Using the WordPress REST API in a mobile app]: http://apppresser.com/using-wordpress-rest-api-mobile-app/
