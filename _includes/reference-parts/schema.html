@@ -1,5 +1,5 @@
-<h2>Schema</h2>
-<p>The schema defines all the fields that exist for a {{ include.schema.title }} object.</p>
+<h2>スキーマ</h2>
+<p>スキーマは{{ include.schema.title }}オブジェクトに存在するすべてのフィールドを定義しています。</p>
 <table class="attributes">
 	{% for property in include.schema.properties %}
 		<tr id="schema-{{ property[0] }}">
@@ -19,11 +19,11 @@
 			<td>
 				<p>{{ property[1].description }}</p>
 				{% if property[1].readonly %}
-					<p class="read-only">Read only</p>
+					<p class="read-only">読み取り専用</p>
 				{% endif %}
-				<p class="context">Context: <code>{{ property[1].context | join:"</code>, <code>"}}</code></p>
+				<p class="context">コンテキスト: <code>{{ property[1].context | join:"</code>, <code>"}}</code></p>
 				{% if property[1].enum %}
-					<p>One of: <code>{{ property[1].enum | join:"</code>, <code>"}}</code></p>
+					<p>次のいずれか: <code>{{ property[1].enum | join:"</code>, <code>"}}</code></p>
 				{% endif %}
 			</td>
 		</tr>
