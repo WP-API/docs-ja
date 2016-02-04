@@ -1,11 +1,11 @@
 <section class="route">
 	<div class="primary">
-		<h2>Create a {{ page.resource }}</h2>
+		<h2>{{ page.resource }}を作成</h2>
 		{% assign args = include.route.endpoints[1].args %}
 		{% include reference-parts/args-list.html args=args link=true %}
 	</div>
 	<div class="secondary">
-		<h3>Definition</h3>
+		<h3>定義</h3>
 
 		<code>POST {{ include.route.nicename }}</code>
 	</div>
