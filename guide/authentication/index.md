@@ -2,19 +2,10 @@
 title: 認証
 ---
 
-<<<<<<< HEAD
-このAPIにおいては、認証には2つの選択肢があり、基本的に以下のように選びましょう。
+このAPIにおいては、認証には幾つかの選択肢があり、基本的に以下のように選びましょう。
 
 * そのサイトで有効化されたテーマやプラグインから利用するのであれば **クッキー認証**
-* デスクトップアプリ、ウェブアプリ、モバイルアプリなどのサイトの外からアクセスするクライアントから API を利用するのであれば **OAuth 認証**
-=======
-There are several options for authenticating with the API. The basic choice boils
-down to:
-
-* Are you a plugin/theme running on the site? Use **cookie authentication**
-* Are you a desktop/web/mobile client accessing the site externally? Use
-  **OAuth authentication**, **application passwords**, or **basic authentication**.
->>>>>>> upstream/gh-pages
+* デスクトップアプリ、ウェブアプリ、モバイルアプリなどのサイトの外からアクセスするクライアントから API を利用するのであれば **OAuth 認証**, **アプリケーションパスワード** または **ベーシック認証**
 
 クッキー認証
 ---------------------
@@ -30,8 +21,7 @@ down to:
 独自のデータモデルからアクセスする場合には、 `wp.api.models.Base` を継承することで、
 あらゆるカスタムリクエストで nonce がきちんと送信されることが保証されます。
 
-<<<<<<< HEAD
-マニュアルで Ajax リクエストを送る場合、nonce は各リクエストで毎回送信する必要があります。 
+マニュアルで Ajax リクエストを送る場合、nonce は各リクエストで毎回送信する必要があります。
 送信された nonce は `wp_rest` にセットされたアクションと一緒に利用されます。
 API への nonce の受け渡しは、POST のデータや GET のクエリの `_wpnonce` パラメータ、
 あるいは`X-WP-Nonce` ヘッダーにセットして行います。
@@ -42,21 +32,6 @@ Note: Until recently, most software had spotty support for `DELETE` requests. Fo
 このクッキー認証が利用できるのは、REST API が WordPress の内部から使われていて、
 かつ、ユーザーがログインしている時のみであるということです。
 さらに、そのログインユーザーが、実行しようとしているアクションに必要な権限を与えられているということも条件となります。
-=======
-For developers making manual Ajax requests, the nonce will need to be passed
-with each request. The API uses nonces with the action set to `wp_rest`. These
-can then be passed to the API via the `_wpnonce` data parameter (either POST
-data or in the query for GET requests), or via the `X-WP-Nonce` header.
-
-Note: Until recently, most software had spotty support for `DELETE` requests. For
-instance, PHP doesn't transform the request body of a `DELETE` request into a super
-global. As such, supplying the nonce as a header is the most reliable approach.
-
-It is important to keep in mind that this authentication method relies on WordPress
-cookies. As a result this method is only applicable when the REST API is used inside
-of WordPress and the current user is logged in. In addition, the current user must
-have the appropriate capability to perform the action being performed.
->>>>>>> upstream/gh-pages
 
 以下は、ビルトインの Javascript クライアントが nonce を生成する例です。
 
@@ -105,14 +80,9 @@ OAuth 認証でも、ユーザーは通常の WordPress ログイン画面を通
 その後、自身に代わって処理を行うクライアントを認証します。
 クライアントには、OAuth トークンが発行され、API へのアクセスが許可されます。このアクセス権はユーザー側からいつでも取り消すことができます。
 
-<<<<<<< HEAD
 OAuth 認証は、[OAuth 1.0a specification][oauth] (published as
 RFC5849) を利用しており、[OAuth plugin][oauth-plugin] がサイトで
-有効化されていることが必要です（このプラグインは将来的にコアにマージされます）。
-=======
-OAuth authentication uses the [OAuth 1.0a specification][oauth] (published as
-RFC5849) and requires installing the [OAuth plugin][oauth-plugin] on the site.
->>>>>>> upstream/gh-pages
+有効化されていることが必要です。
 
 WP API と OAuth サーバー用のプラグインを有効化したら、コンシューマを作成しましょう。
 コンシューマは、アプリケーションの識別子であり、サイトとリンクするために必要な key と secret からなります。
@@ -137,47 +107,25 @@ Secret: LnUdIsyhPFnURkatekRIAUfYV7nmP4iF3AVxkS5PRHPXxgOW
 [client-cli]: https://github.com/WP-API/client-cli
 [api-console]: https://github.com/WP-API/api-console
 
-<<<<<<< HEAD
 
-ベーシック認証
+アプリケーションパスワードまたはベーシック認証
 --------------------
 ベーシック認証は、外部クライアントから利用できる認証の代替的な方法です。
 OAuth 認証は複雑なので、開発段階ではベーシック認証が便利でしょう。
 ただし、ベーシック認証ではすべてのリクエストにおいてユーザー名とパスワードを送る必要があり、
-本番の環境で利用することは超非推奨です。
+本番の環境で利用することは断じて非推奨です。
 
-ベーシック認証は、 [HTTP Basic Authentication][http-basic] (published as RFC2617) を利用しており [Basic Auth plugin][basic-auth-plugin] プラグインの有効化が必要です。
+アプリケーションパスワードも似たような用途で使用されます。しかしながらこれは、あなたの通常のWordPressパスワードに代わるもので、ユニークであり破棄することが簡単で、WordPressのプロフィール画面で変更することができるものです。これらのアプリケーションパスワードは、REST-APIや旧来のXML-RPCで使用されるもので、WordPressの管理画面にログインするために使用されるものではありません。
 
-ベーシック認証の利用時、ユーザー名とパスワードは各リクエストの `Authorization` ヘッダーを通じて渡します。
-この値は、HTTP Basic 認証の仕様に従い、base64 でエンコードされるべきです。
+ベーシック認証とアプリケーションパスワードは、[HTTP Basic Authentication][http-basic]
+(published as RFC2617) を利用しており、[Basic Auth plugin][basic-auth-plugin] または
+[Application Passwords plugin][application-passwords] のどちらかを有効化する必要があります。
 
-以下は、ベーシック認証による、WordPress のHTTP API を使った投稿の更新の例です。
-=======
-Application Passwords or Basic Authentication
----------------------------------------------
-Basic authentication is an optional authentication handler for external clients.
-Due to the complexity of OAuth authentication, basic authentication can be
-useful during development. However, Basic authentication requires passing your
-username and password on every request, as well as giving your credentials to
-clients, so it is heavily discouraged for production use.
+ベーシック認証を使用するには、ユーザー名とパスワードをリクエストごとに`Authentication`ヘッダーで送信するだけです。この値は認証のたびにBase64エンドコードでエンコードされるべきです。
 
-Application passwords are used similarly, however instead of providing your normal
-account password, unique and easily revokable passwords are generated from your
-edit profile screen in the WordPress admin.  These application passwords are valid
-exclusively for the REST API and the legacy XML-RPC API and may not be used to log
-in to WordPress.
 
-Both basic authentication and application passwords use [HTTP Basic Authentication][http-basic]
-(published as RFC2617) and requires installing either the [Basic Auth plugin][basic-auth-plugin] or
-[Application Passwords plugin][application-passwords] respectively.
+これは、投稿をアップデートするためのサンプルで、WordPress HTTP APIを用いて認証を行っています。
 
-To use Basic authentication, simply pass the username and password with each
-request through the `Authorization` header. This value should be encoded (using
-base64 encoding) as per the HTTP Basic specification.
-
-This is an example of how to update a post, using these authentications, via the
-WordPress HTTP API:
->>>>>>> upstream/gh-pages
 
 ```php
 $headers = array (
@@ -186,7 +134,7 @@ $headers = array (
 $url = rest_url( 'wp/v2/posts/1' );
 
 $body = array(
-	'title' => 'Hello Gaia' 
+	'title' => 'Hello Gaia'
 );
 
 $response = wp_remote_post( $url, array (
@@ -195,7 +143,7 @@ $response = wp_remote_post( $url, array (
     'body'    =>  $data
 ) );
 ```
-    
+
 
 [http-basic]: https://tools.ietf.org/html/rfc2617
 [basic-auth-plugin]: https://github.com/WP-API/Basic-Auth
