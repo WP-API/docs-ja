@@ -1,16 +1,16 @@
 
 <section class="route">
 	<div class="primary">
-		<h2>Delete a {{ page.resource }}</h2>
+		<h2>{{ page.resource }}を削除</h2>
 		{% assign args = include.route.endpoints[2].args %}
 		{% include reference-parts/args-list.html args=args %}
 	</div>
 	<div class="secondary">
-		<h3>Definition</h3>
+		<h3>定義</h3>
 
 		<code>DELETE {{ include.route.nicename }}</code>
 
-		<h3>Example Request</h3>
+		<h3>リクエスト例</h3>
 
 		<code>$ curl -X DELETE http://demo.wp-api.org/wp-json{{ include.route.nicename }}</code>
 	</div>

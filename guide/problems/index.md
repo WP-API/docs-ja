@@ -1,25 +1,25 @@
 ---
-title: Common Problems
+title: よくある問題
 ---
-We try and make the REST API as easy as possible, but APIs are hard. Here's a collection of common issues we run into.
+私達は REST API をできるかぎり簡単なものにしようと努めていますが、API はそもそも難しいものです。ここに私達が直面している一連の問題を挙げます。
 
 
-Authentication Errors with `/users/me`
+`/users/me`での認証エラー
 --------------------------------------
-The current user endpoint redirects to `/users/{id}` with the current user's information, using a 302 status with a Location header.
+現在のユーザーを示すエンドポイントがユーザー情報を元に`/users/{id}`へと302ロケーションヘッダー付きでリダイレクトされてしまいます。
 
-One particularly prevelant place this occurs is in browser requests. Browsers automatically follow HTTP requests when using XMLHttpRequest, and you cannot disable this behaviour.
+とりわけこれがよく起きるのは、ブラウザリクエストにおいてです。ブラウザはXMLHttpRequestを使うときにHTTPリクエストに自動的に従ってしまいます。このブラウザの挙動を防ぐことはできません。
 
-The reason why this happens is different for each authentication type:
+これが起きてしまう理由は認証タイプによって異なります:
 
-* **OAuth 1** requires each request to be signed, and the signature is unique to the request being sent. A redirect can cause the same authentication headers to be sent, but with different request data, causing the signature to fail.
-* **Cookie authentication** sends a nonce with the request. When sending this in the URL, this data won't be passed along to the redirected URL.
+* **OAuth 1** ではそれぞれのリクエストが署名付きであり、なおかつその署名は送信されるリクエストごとに一意であることが求められます。リダイレクトによって同じ認証ヘッダーが送信される可能性がありますが、異なるリクエストデータでは署名の確認に失敗してしまいます。
+* **クッキー認証** はリクエストにニンスを含めて送信します。URLに含めて送信する場合、このデータはリダイレクトURLに渡されません。
 
-Although the redirection can be annoying, it's intended behaviour. The Location header indicates that the current route (`/users/me`) is not the canonical source for the data, just a pointer to it.
+リダイレクトはやっかいですが、これは意図した挙動です。ロケーションヘッダーが意味すのは、現在のルート（`users/me`）がデータにとって正式なソースではなく、単なるデータへのポインターだということです。
 
-To work around the problems with untrustworthy clients like browsers, the API provides the ability to "envelope" a request. This takes the normal status code and headers, and moves the data into the response body instead. This will cause the API to also return a status code of 200, and no extra headers.
+ブラウザのような信頼出来ないクライアント上でこの問題をうまくこなすために、APIはリクエストを"envelope"（包む）機能を提供しています。これにより通常のステータスコードとヘッダーを受け取り、データはその代わりにレスポンスボディへと移されます。この結果、APIはステータスコード200を返し、追加ヘッダーはありません。
 
-For example, with a response that looks like this:
+たとえば、このようなこのようなレスポンスにおいて……
 
 ```
 HTTP/1.1 302 Found
@@ -31,7 +31,7 @@ Location: http://example.com/wp-json/wp/v2/users/42
 }
 ```
 
-To trigger enveloping, we can append a `_envelope` parameter to the request URL (i.e. `/users/me?_envelope`). Enveloping would change this to the following response instead:
+envelopeを実行するには、リクエストURLに`_envelope`パラメータを含めます（例 `/users/me?_envelope`）。envelopeすることで代わりに次のようなレスポンスへと変更します。
 
 ```
 HTTP/1.1 200 OK
@@ -49,33 +49,33 @@ HTTP/1.1 200 OK
 ```
 
 
-Meta Accessibility
+メタへのアクセス
 ------------------
 
-If you try and access post meta via the API, you may run into problems accessing it. This is because we have some semi-complicated rules around how you can access meta. Here's the run down.
+APIで投稿メタにアクセスしようとすると、あなたは問題に直面するかもしれません。これは私達がメタへアクセスするために少し複雑なルールを用いているからです。概要を説明します。
 
-(Note: we're [considering changing how this works](https://github.com/WP-API/WP-API/issues/1425). Let us know if you have an opinion on this!)
+（注： 私たちは[この動作の変更を検討しています](https://github.com/WP-API/WP-API/issues/1425)。ご意見があればぜひ教えて下さい！）
 
-### Serialized Meta
+### シリアライズされたメタ
 
-Any form of serialized data is not allowed through the API. This includes reading meta which has stored serislized data, creating or updating meta with serialized data, or even updating meta which currently has a serialized value.
+どんな形であれ、シリアライズされたデータはAPIで許可されていません。シリアライズされたデータが保存されたメタを読み取ること、シリアライズされたデータでメタを作成または更新すること、そしてシリアライズされた値を現在持っているメタを更新することも含めて許可されていません。
 
-There are a few reasons for this:
+これにはいくつかの理由があります：
 
-1. **JSON is lossy** - JSON cannot hold all formats of data that can be safely stored by PHP. In particular, custom objects cannot be represented, and there is no difference between an associative array and an object.
-2. **Serialized data can expose private data** - Serialized data includes protected and private properties of objects, which may be unsafe to expose over an API. It can also expose internal class structure and parts of private codebases that may need to remain private.
-3. **Serialized data has security problems** - Allowing serialized data allows input of any custom object, which causes the object to be created on the server. This is essentially a Remote Code Execution vulnerability, one of the worst classes of security bug.
+1. **JSONは不可逆である** - PHPが安全に保存できるデータのすべてをJSONが持てるわけではありません。特にカスタムオブジェクトは表現できませんし、連想配列とオブジェクトには違いがありません。
+2. **シリアライズされたデータはプライベートなデータを見えるようにしてしまう** - シリアライズされたデータはオブジェクトのprotectedやprivateはプロパティを含むため、もしかしたらAPI上で晒すのは危険かもしれません。また、外部に晒してはならない内部的なクラス構造やプライベートなコードベースを晒してしまう可能性もあります。
+3. **シリアライズされたデータはセキュリティ上の問題がある** - シリアライズされたデータを許可してしまうと、カスタムオブジェクトの入力を許すことになり、結果としてサーバーでオブジェクトが作られてしまうかもしれません。これは基本的にRemote Code Execution脆弱性の一種であり、セキュリティバグとしては最悪クラスです。
 
-For these reasons, serialized data is not allowed in any form.
+これらの理由からシリアライズされたデータはいかなる形でも許可されていません。
 
-### Protected Meta
+### 保護されたメタ
 
-Protected meta is any meta item where the key begins with an `_` character, or has been otherwise marked as protected (i.e. via a filter). These meta fields are typically intended for internal use only, and hence, cannot be exposed via the API automatically.
+保護されたメタとは、キーが`_`文字から始まるか、その他の方法（例： フィルター）で保護されているすべてのメタのことです。これらのメタフィールドは内部的な利用のみを想定されており、その結果、APIで自動的にさらされることはありません。
 
-### Other Meta
+### その他のメタ
 
-For meta that does not fit one of the above criteria, the data is available via the API. However, this data is only available when authenticated with permission to edit the post that the meta is attached to.
+上記のいずれの基準にも適合しないメタは、APIで利用可能です。しかしながら、そのメタが付与された投稿の編集権限があるユーザーに認証された場合だけデータが利用可能になります。
 
-This may seem counterintuitive (since we've already eliminated "private" meta), but the main reason for this is because the WordPress admin has the Custom Fields metabox. This allows anyone to add custom meta to the post without registering it, and is often used by power users for internal notes as part of their editing process. Being essentially a freeform text field, this would breach user privacy to expose.
+これは直感に反するように思える（なぜならすでにプライベートなメタは除外しているから）かもしれませんが、これはWordPressの管理画面がカスタムフィールドのメタボックスを持っているからです。このおかげで誰でもメタを登録することなしにカスタムメタを投稿に付与でき、しばしばパワーユーザーによって編集過程の内部的なノートとして使われています。基本的には自由入力のテキストフィールドであることによって、それを晒すことがユーザーのプライバシーを侵害することになりうるのです。
 
-For these reasons, meta is locked down tight currently. We are however [considering changing this](https://github.com/WP-API/WP-API/issues/1425) to make it easier for plugins and themes to work with, so this may change in the future.
+これらの理由からメタは今のところ厳しくロックされています。しかしながら、私たちはプラグインやテーマがそれを利用するのがもっと簡単になるよう、 [変更を検討](https://github.com/WP-API/WP-API/issues/1425)しているので、将来的には変わるかもしれません。

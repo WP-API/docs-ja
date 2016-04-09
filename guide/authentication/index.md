@@ -2,10 +2,10 @@
 title: 認証
 ---
 
-このAPIにおいては、認証には2つの選択肢があり、基本的に以下のように選びましょう。
+このAPIにおいては、認証にはいくつかの選択肢があり、基本的に以下のように選びましょう。
 
 * そのサイトで有効化されたテーマやプラグインから利用するのであれば **クッキー認証**
-* デスクトップアプリ、ウェブアプリ、モバイルアプリなどのサイトの外からアクセスするクライアントから API を利用するのであれば **OAuth 認証**
+* デスクトップアプリ、ウェブアプリ、モバイルアプリなどのサイトの外からアクセスするクライアントから API を利用するのであれば **OAuth 認証**, **アプリケーションパスワード** または **ベーシック認証**
 
 クッキー認証
 ---------------------
@@ -21,7 +21,7 @@ title: 認証
 独自のデータモデルからアクセスする場合には、 `wp.api.models.Base` を継承することで、
 あらゆるカスタムリクエストで nonce がきちんと送信されることが保証されます。
 
-マニュアルで Ajax リクエストを送る場合、nonce は各リクエストで毎回送信する必要があります。 
+マニュアルで Ajax リクエストを送る場合、nonce は各リクエストで毎回送信する必要があります。
 送信された nonce は `wp_rest` にセットされたアクションと一緒に利用されます。
 API への nonce の受け渡しは、POST のデータや GET のクエリの `_wpnonce` パラメータ、
 あるいは`X-WP-Nonce` ヘッダーにセットして行います。
@@ -82,7 +82,7 @@ OAuth 認証でも、ユーザーは通常の WordPress ログイン画面を通
 
 OAuth 認証は、[OAuth 1.0a specification][oauth] (published as
 RFC5849) を利用しており、[OAuth plugin][oauth-plugin] がサイトで
-有効化されていることが必要です（このプラグインは将来的にコアにマージされます）。
+有効化されていることが必要です。
 
 WP API と OAuth サーバー用のプラグインを有効化したら、コンシューマを作成しましょう。
 コンシューマは、アプリケーションの識別子であり、サイトとリンクするために必要な key と secret からなります。
@@ -108,19 +108,24 @@ Secret: LnUdIsyhPFnURkatekRIAUfYV7nmP4iF3AVxkS5PRHPXxgOW
 [api-console]: https://github.com/WP-API/api-console
 
 
-ベーシック認証
+アプリケーションパスワードまたはベーシック認証
 --------------------
 ベーシック認証は、外部クライアントから利用できる認証の代替的な方法です。
 OAuth 認証は複雑なので、開発段階ではベーシック認証が便利でしょう。
 ただし、ベーシック認証ではすべてのリクエストにおいてユーザー名とパスワードを送る必要があり、
-本番の環境で利用することは超非推奨です。
+本番の環境で利用することは断じて非推奨です。
 
-ベーシック認証は、 [HTTP Basic Authentication][http-basic] (published as RFC2617) を利用しており [Basic Auth plugin][basic-auth-plugin] プラグインの有効化が必要です。
+アプリケーションパスワードも似たような用途で使用されます。しかしながらこれは、あなたの通常のWordPressパスワードに代わるもので、ユニークであり破棄することが簡単で、WordPressのプロフィール画面で変更することができるものです。これらのアプリケーションパスワードは、REST-APIや旧来のXML-RPCで使用されるもので、WordPressの管理画面にログインするために使用されるものではありません。
 
-ベーシック認証の利用時、ユーザー名とパスワードは各リクエストの `Authorization` ヘッダーを通じて渡します。
-この値は、HTTP Basic 認証の仕様に従い、base64 でエンコードされるべきです。
+ベーシック認証とアプリケーションパスワードは、[HTTP Basic Authentication][http-basic]
+(published as RFC2617) を利用しており、[Basic Auth plugin][basic-auth-plugin] または
+[Application Passwords plugin][application-passwords] のどちらかを有効化する必要があります。
 
-以下は、ベーシック認証による、WordPress のHTTP API を使った投稿の更新の例です。
+ベーシック認証を使用するには、ユーザー名とパスワードをリクエストごとに`Authentication`ヘッダーで送信するだけです。この値は認証のたびにBase64エンドコードでエンコードされるべきです。
+
+
+これは、投稿をアップデートするためのサンプルで、WordPress HTTP APIを用いて認証を行っています。
+
 
 ```php
 $headers = array (
@@ -129,7 +134,7 @@ $headers = array (
 $url = rest_url( 'wp/v2/posts/1' );
 
 $body = array(
-	'title' => 'Hello Gaia' 
+	'title' => 'Hello Gaia'
 );
 
 $response = wp_remote_post( $url, array (
@@ -138,7 +143,8 @@ $response = wp_remote_post( $url, array (
     'body'    =>  $data
 ) );
 ```
-    
+
 
 [http-basic]: https://tools.ietf.org/html/rfc2617
 [basic-auth-plugin]: https://github.com/WP-API/Basic-Auth
+[application-passwords]: https://github.com/georgestephanis/application-passwords

@@ -2,20 +2,11 @@
 title: "What's Changed: v2 Beta 1"
 ---
 
-This document is a summary of what we've changed in the REST API between
-versions 1 and 2. The key changes to the API are listed below, along with an
-example of migrating an endpoint to version 2.
+このドキュメントでは、REST APIのバージョン1と2の更新情報の概要について説明します。主な変更点は以下のとおりです。さらにバージョン1から2へ移行する際のサンプルコードも用意しています。
 
-**Important note:** Beta 1 does not guarantee forwards compatibility with
-future betas. While we believe the API is now stable enough for public
-testing, we may continue to break the API in the future as we improve it
-further. Only use the API in development, and do not use version 2 in
-production environments.
+**重要:** ベータ1は、将来のバージョンで互換性が保障されているわけではありません。公にテストを行うには十分な信頼性があると考えていますが、さらに改善するために互換性がなくなるかもしれません。バージョン2は、本番環境では使用しないで開発環境においてのみ使用してください。
 
-As always, we'd love your feedback on what we're doing right, or what we're
-doing wrong. If there's changes in here that make you think "what were they
-thinking", let us know. If something's missing that needs further changing,
-then we'd also love to know that. :)
+これまで通り、私たちが正しいことをするにも、誤ったことをするにも、みなさんのフィードバックを歓迎します。もし「彼らは何を考えてるんだろう？」と思うようなことがあれば知らせてください。もし何か見逃していることがあれば、ぜひそれを知りたいと思っています。
 
 # Key Changes
 
@@ -58,7 +49,7 @@ then we'd also love to know that. :)
   namespace. For example, the posts collection endpoint is now at
   `/wp-json/wp/v2/posts`
 
-* **Changed**: Hypermedia links have changed from `meta.links` to 
+* **Changed**: Hypermedia links have changed from `meta.links` to
   `_links` to follow the HAL standard. In custom endpoints, you can either
   return `_links` in your data, or use `WP_REST_Response->add_link`
 

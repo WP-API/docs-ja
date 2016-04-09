@@ -1,5 +1,5 @@
 {% if include.args.size > 0 %}
-	<h3>Arguments</h3>
+	<h3>引数</h3>
 	<table class="arguments">
 		{% for arg in include.args %}
 			<tr>
@@ -16,21 +16,21 @@
 					{% endif %}
 					{% if arg[1].required %}
 						<p class="required">
-							Required: {{ arg[1].required }}
+							必須: {{ arg[1].required }}
 						</p>
 					{% endif %}
 					{% if arg[1].default %}
 						<p class="default">
-							Default: <code>{{ arg[1].default }}</code>
+							初期値: <code>{{ arg[1].default }}</code>
 						</p>
 					{% endif %}
 					{% if arg[1].enum %}
-						<p>One of: <code>{{ arg[1].enum | join:"</code>, <code>"}}</code></p>
+						<p>次のいずれか: <code>{{ arg[1].enum | join:"</code>, <code>"}}</code></p>
 					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}
 	</table>
 {% else %}
-	<p>There are no arguments for this enpdoint.
+	<p>このエンドポイントには引数がありません。
 {% endif %}

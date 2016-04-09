@@ -1,57 +1,54 @@
 ---
-title: Modifying Responses
+title: レスポンスを修正する
 ---
-The default endpoints of the WordPress REST API are designed to be sensible defaults in terms of what data is returned. This fits the 80/20 rule by providing for 80% of sites and uses, but these default collections of data cannot always fulfill the needs of every one of the millions of sites.
+WordPress REST APIのデフォルト・エンドポイントはデータがなにを返すかという観点においてわかりやすい設計になっています。これは80%のサイトとその使用法にあった80/20ルールに則っていますが、これらデータの初期値は数百万とあるサイトすべての要望を満たすものではありません。
 
-The REST API is designed to be highly extensible, like the rest (no pun intended) of WordPress. This document details how to add additional data, including but not limited to post or user meta data to the responses of default endpoints, using the function `register_rest_field`; a helper function designed to add fields to the response for a specific option.
+REST APIは高度に拡張できる設計になっており、WordPressの<ruby>他の部分<rt>rest</rt></ruby>（ダジャレじゃないですよ）と同様です。この文書では投稿やユーザーのメタ情報に限らないさらなるデータを追加する方法について説明します。`register_rest_field`関数、特定のオプションのレスポンスにフィールドを追加するために設計されたヘルパー関数を使って。
 
-`register_rest_field` provides a single way for modifying all responses for an object. For example, if it is used to add a field to the posts object, this field will be included in all responses, whether they are for single or multiple items.
+`register_rest_field`はオブジェクトのレスポンスを修正する一つの方法です。たとえば、投稿オブジェクトにフィールドを追加するために使われれば、すべてのレスポンスにおいてそのフィールドが含まれます。一つのオブジェクトか複数のオブジェクトかにかかかわらず、です。
 
-In addition, it allows you to update that value from the endpoints the field is registered on.
+さらにフィールドが追加されたエンドポイントにおいて、その値を更新することもできます。
 
-It is important to note that in the context of this document, the term "field" refers to a field in the object returned by the API. It does not refer to a meta field of a post, comment or user. While it `register_rest_field` can be used to add meta fields to a response, it can be used to add any data.
+この文書がおかれた文脈において、「フィールド」という用語はAPIによって返されるオブジェクトのフィールドを意味しているということに注意してください。これは投稿やコメント、ユーザーのメタフィールドについて言っているのではありません。`register_rest_field`はレスポンスにメタフィールドを追加するだけではなく、どんなデータでも追加できるのです。
 
-
-Important Note about Changing Responses
+レスポンスを変更することについての注意書き
 ---------------------------------------
 
-The API exposes many fields on API responses, including things you might not need, or might not fit into how your site works. While it's tempting to modify or remove fields from responses, this **will** cause problems with API clients that expect standard responses. This includes things like mobile clients, or third party tools to help you manage your site.
+APIはたくさんのフィールドをAPIレスポンスとして外部にさらします。そこにはあなたが必要としないものや、サイトにふさわしくないものも含まれるでしょう。レスポンスのフィールドを修正したり削除したりすることは、通常のレスポンスを期待しているAPIクライアントに問題を引き起こす**でしょう**。これにはモバイル・クライアントや、サイトを管理する助けとなるサード・パーティのツールも含まれます。
 
-You may only need a small amount of data, but it's important to keep in mind that the API is about exposing an interface to all clients, not just the feature you're working on. Changing responses is dangerous.
+少しのデータしか必要なくても、APIはあらゆるクライアントへのインターフェースとして公開されているのであり、あなたが取り組んでいる機能だけのためのものではないということを念頭においてください。レスポンスを変更することは危険なのです。
 
-Adding fields is not dangerous, so if you need to modify data, it's much better to duplicate the field instead with your modified data. Removing fields is never encouraged; if you need to get back a smaller subset of data, work with contexts instead, and consider making your own context.
+フィールドを追加することは危険ではないので、データを修正するよりは、重複していた方がましです。フィールドを削除することは絶対におすすめしません。もっと小さなデータセットが必要ならば、まずはコンテキストを変更することを検討し、独自のコンテキストを作るよう心がけてください。
 
-Note that the API cannot prevent you from changing responses, but the code is structured to strongly discourage this. Internally, field registration is powered by filters, and these can be used if you absolutely have no other choice.
+忘れないで下さい。APIはあなたがレスポンスを変更することを禁止しているのではなく、そうしないようなコードとして設計されているのです。内部的にはフィールドの登録はフィルターによってサポートされており、他の選択肢がまったくない場合は利用できるということです。
 
 
-What `register_rest_field` Does
+`register_rest_field`が行うこと
 ------------------------------
 
-In the infrastructure for responses, the global variable $wp_rest_additional_fields, is used for holding the fields, by object name to be added to the responses to those objects. The REST API provides `register_rest_field` as a utility function for adding to this global variable. Adding to it directly should be avoided to ensure maximum forward-compatibility.
+レスポンスの構造において、グローバル変数$wp_rest_additional_fieldsはフィールドを保持するために使われています。そこにオブジェクトのレスポンスに追加されるオブジェクト名が保持されます。このグローバル変数に追加するためのユーティリティ関数としてREST APIは`register_rest_field`を提供しています。$wp_rest_additional_fieldsに直接追加することは前方互換性の観点から禁止されています。
 
-For each object -- a post type, or users, terms, comments, meta, etc, $wp_rest_additional_fields contains an array of fields, each of which can have a value for callbacks used to retrieve the value, update the value using any endpoint that field is added to that can be used for updating.
+それぞれのオブジェクト——投稿、ユーザー、ターム、コメント、メタ、その他——のために、$wp_rest_additional_fields はフィールドの配列を保持しており、それぞれが値を取得、更新するためのコールバックを有しています。どのエンドポイントにおいてもそのフィールドが追加されていればこのコールバックを利用できます。
 
-
-How To Use `register_rest_field`
+`register_rest_field`の使い方
 -------------------------------
 
-The function `register_rest_field` field accepts three parameters:
+関数`register_rest_field`は3つの引数を受け取ります:
 
-1. `$object_type`: The name of the object, as a string, or an array of the names of objects the field is being registered to. When adding to posts type endpoints, the name of the post type(s) should be used. Alternatively "terms", "meta", "user" or "comments" may be used.
+1. `$object_type`: オブジェクトの名前。このフィールドが追加されるオブジェクト名の文字列、またはオブジェクト名からなる配列。投稿タイプのエンドポイントに追加する場合は、投稿タイプ名を使用する。他には、"terms", "meta", "user", "comments"などが使われるかもしれません。
 
-2. `$attribute`: The name of the field. This name will be used to define the key in the response object.
+2. `$attribute`: フィールド名。レスポンス・オブジェクトのキーとして定義されます。
 
-3. `$args`: An array with keys that define the callback functions used to retrieve the value of the field, to update the value of the field and define its schema. Each of these keys are optional, but if not used, that capability will not be added.
+3. `$args`: コールバック関数を指定するキーを持った配列。コールバックにはデータの取得、フィールドの更新、スキーマの定義があります。それぞれのキーはオプションですが、指定されない場合はこの機能が使えません。
 
-This means that if you specify a callback function for reading the value, but not a callback for updating then it will be readable, but not updatable. This may be desired in many situations.
+つまり、あなたが値を読み取るコールバック関数を指定したのに更新用のコールバックを指定しなかった場合、読み取りはできますが更新できなくなります。多くのシチュエーションでこうしたことが求められるでしょう。
 
-Fields should be registered at the `rest_api_init` action. Using this action rather than `init` will prevent the field registration from happening during requests to WordPress that do not use the REST API.
+フィールドは`rest_api_init`で登録されるべきです。`init`ではなく、このアクションを使うことで、REST APIを使わないWordPressリクエストでもフィールドが登録されてしまうことを防げます。
 
-
-Examples
+例
 --------
 
-### Show a post meta field in post responses
+### 投稿レスポンスに投稿メタを表示
 
 ```php
 <?php
@@ -68,11 +65,11 @@ function slug_register_starship() {
 }
 
 /**
- * Get the value of the "starship" field
+ * "starship"フィールドの値を取得
  *
- * @param array $object Details of current post.
- * @param string $field_name Name of field.
- * @param WP_REST_Request $request Current request
+ * @param array $object 現在の投稿の詳細データ
+ * @param string $field_name フィールド名
+ * @param WP_REST_Request $request 現在のリクエスト
  *
  * @return mixed
  */
@@ -81,14 +78,14 @@ function slug_get_starship( $object, $field_name, $request ) {
 }
 ```
 
-This example illustrates adding the post meta field "starship" to the response for posts. Note that the field name corresponds to the post meta field name to simplify the code. It does not have to.
+この例では投稿のレスポンスに"starship"投稿メタフィールドを追加しています。コードを簡略化するためにフィールド名が投稿メタフィールド名と対応していることに注意してください。これは必須ではありません。
 
-### Read and write a post meta field in post responses
+### 投稿レスポンスで投稿メタフィールを読み書きする
 
 ```php
 <?php
 /**
- * Add the field "spaceship" to REST API responses for posts read and write
+ * "spaceship"フィールドを投稿のRST APIレスポンスに追加して読み書き可能にする
  */
 add_action( 'rest_api_init', 'slug_register_spaceship' );
 function slug_register_spaceship() {
@@ -102,13 +99,13 @@ function slug_register_spaceship() {
     );
 }
 /**
- * Handler for getting custom field data.
+ * カスタムフィールドのデータ取得するためのハンドラ
  *
  * @since 0.1.0
  *
- * @param array $object The object from the response
- * @param string $field_name Name of field
- * @param WP_REST_Request $request Current request
+ * @param array $object The レスポンス・オブジェクト
+ * @param string $field_name フィールド名
+ * @param WP_REST_Request $request 現在のリクエスト
  *
  * @return mixed
  */
@@ -121,9 +118,9 @@ function slug_get_spaceship( $object, $field_name, $request ) {
  *
  * @since 0.1.0
  *
- * @param mixed $value The value of the field
- * @param object $object The object from the response
- * @param string $field_name Name of field
+ * @param mixed $value フィールド名The value of the field
+ * @param object $object レスポンス・オブジェクト
+ * @param string $field_name フィールド名
  *
  * @return bool|int
  */
@@ -137,14 +134,14 @@ function slug_update_spaceship( $value, $object, $field_name ) {
 }
 ```
 
-This example shows how to allow reading and writing of a post meta field. This will allow the spaceship field to be updated via a POST request to `wp-json/wp/v2/posts/<post-id>` or created along with a post via a POST request to ``wp-json/wp/v2/posts/`
+この例ではどのように投稿メタフィールドを読み書きできるようにするかを示しています。これは`wp-json/wp/v2/posts/<post-id>`へのPOSTリクエストでspaceshipフィールドを更新できるようにし、`wp-json/wp/v2/posts/`へのPOSTリクエストで追加できるようにします。
 
-### Return an arbitrary function
+### 任意の関数を返す
 
 ```php
 <?php
 /**
- * Use arbitrary functions to add a field
+ * フィールドを追加するために任意の関数を使う
  */
 add_action( 'rest_api_init', 'slug_register_something_random' );
 function slug_register_something_random() {
@@ -159,4 +156,5 @@ function slug_register_something_random() {
 }
 ```
 
-In the previous examples, helper functions were used to align the arguments passed by the API to `get_post_meta` and `update_post_meta`. In this example, an arbitrary function is called, which presumably accepts arguments in a compatible fashion.
+一つ前の例では、ヘルパー関数はAPIによって渡される引数を`get_post_meta`や`update_post_meta`に合わせたものでした。この例では任意の関数が呼び出されており、同じようなやり方で引数を受け取ることでしょう。
+
