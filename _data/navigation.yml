@@ -1,12 +1,12 @@
-- title: Overview
+- title: 概要
   items:
-    - title: Introduction
+    - title: はじめに
       page: index.md
 
-    - title: Glossary
+    - title: 用語集
       page: glossary.md
 
-    - title: What's Changed?
+    - title: V1からの変更点
       page: changes-beta-1.md
 
 #- title: Integration
@@ -14,44 +14,44 @@
 #    - title: Resources
 #      page: resources.md
 
-- title: User Guide
+- title: ユーザーガイド
   items:
     #- title: Connecting to the API
     #  page: guide/connecting/index.md
 
-    - title: Authentication
+    - title: 認証
       page: guide/authentication/index.md
 
-    - title: Discovery
+    - title: 探索する
       page: guide/discovery/index.md
 
-    - title: Common Problems
+    - title: よくある問題
       page: guide/problems/index.md
 
-- title: API Reference
+- title: API リファレンス
   items:
-    - title: Introduction
+    - title: 概要
       page: reference/index.md
 
-    - title: Posts
+    - title: 投稿
       page: reference/posts/index.md
 
-    - title: Post Meta
+    - title: 投稿メタ
       page: reference/posts/meta.md
 
-    - title: Post Revisions
+    - title: 編集履歴
       page: reference/posts/revisions.md
 
-    - title: Pages
+    - title: 固定ページ
       page: reference/pages/index.md
 
-    - title: Media
+    - title: メディア
       page: reference/media/index.md
 
-    - title: Post Types
+    - title: 投稿タイプ
       page: reference/types/index.md
 
-    - title: Post Statuses
+    - title: 投稿ステータス
       page: reference/statuses/index.md
 
   # - title: Post Meta
@@ -60,37 +60,37 @@
   # - title: Post Revisions
   #   page: reference/revisions.md
 
-    - title: Comments
+    - title: コメント
       page: reference/comments/index.md
 
-    - title: Taxonomies
+    - title: タクソノミー
       page: reference/taxonomies/index.md
 
-    - title: Categories
+    - title: カテゴリー
       page: reference/categories/index.md
 
-    - title: Tags
+    - title: タグ
       page: reference/tags/index.md
 
-    - title: Users
+    - title: ユーザー
       page: reference/users/index.md
 
-- title: Extending
+- title: 拡張
   items:
-    - title: Modifying Responses
+    - title: レスポンスを修正する
       page: extending/modifying/index.md
 
-    - title: Internal Classes
+    - title: クラスの拡張
       page: extending/internal-classes/index.md
 
-    - title: Adding Endpoints
+    - title: エンドポイントの追加
       page: extending/adding/index.md
-      
-    - title: Custom Content Types
+
+    - title: カスタム投稿タイプ
       page: extending/custom-content-types/index.md
 
     - title: Linking
       page: extending/linking/index.md
 
-    - title: JavaScript Client
+    - title: JavaScriptクライアント
       page: extending/javascript-client/index.md
