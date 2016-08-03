@@ -1,260 +1,6 @@
 {
   "name": "category",
   "routes": {
-    "/wp/v2/posts/<post_id>/categories": {
-      "namespace": "wp/v2",
-      "methods": [
-        "GET"
-      ],
-      "endpoints": [
-        {
-          "methods": [
-            "GET"
-          ],
-          "args": {
-            "context": {
-              "required": false,
-              "default": "view",
-              "enum": [
-                "view",
-                "embed"
-              ],
-              "description": "Scope under which the request is made; determines fields present in response."
-            },
-            "order": {
-              "required": false,
-              "default": "asc",
-              "enum": [
-                "asc",
-                "desc"
-              ],
-              "description": "Order sort attribute ascending or descending."
-            },
-            "orderby": {
-              "required": false,
-              "default": "name",
-              "enum": [
-                "count",
-                "name",
-                "slug",
-                "term_order"
-              ],
-              "description": "Sort collection by object attribute."
-            }
-          }
-        }
-      ],
-      "schema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "title": "category",
-        "type": "object",
-        "properties": {
-          "id": {
-            "description": "Unique identifier for the object.",
-            "type": "integer",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "count": {
-            "description": "Number of published posts for the object.",
-            "type": "integer",
-            "context": [
-              "view"
-            ],
-            "readonly": true
-          },
-          "description": {
-            "description": "A human-readable description of the object.",
-            "type": "string",
-            "context": [
-              "view"
-            ]
-          },
-          "link": {
-            "description": "URL to the object.",
-            "type": "string",
-            "format": "uri",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "name": {
-            "description": "The title for the object.",
-            "type": "string",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "required": true
-          },
-          "slug": {
-            "description": "An alphanumeric identifier for the object unique to its type.",
-            "type": "string",
-            "context": [
-              "view",
-              "embed"
-            ]
-          },
-          "taxonomy": {
-            "description": "Type attribution for the object.",
-            "type": "string",
-            "enum": [
-              "category",
-              "post_tag",
-              "nav_menu",
-              "link_category",
-              "post_format"
-            ],
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "parent": {
-            "description": "The id for the parent of the object.",
-            "type": "integer",
-            "context": [
-              "view"
-            ]
-          }
-        }
-      },
-      "nicename": "/wp/v2/posts/&lt;post_id&gt;/categories"
-    },
-    "/wp/v2/posts/<post_id>/categories/<term_id>": {
-      "namespace": "wp/v2",
-      "methods": [
-        "GET",
-        "POST",
-        "DELETE"
-      ],
-      "endpoints": [
-        {
-          "methods": [
-            "GET"
-          ],
-          "args": {
-            "context": {
-              "required": false,
-              "default": "view",
-              "enum": [
-                "view",
-                "embed"
-              ],
-              "description": "Scope under which the request is made; determines fields present in response."
-            }
-          }
-        },
-        {
-          "methods": [
-            "POST"
-          ],
-          "args": [
-
-          ]
-        },
-        {
-          "methods": [
-            "DELETE"
-          ],
-          "args": {
-            "force": {
-              "required": false,
-              "default": false,
-              "description": "Required to be true, as resource does not support trashing."
-            }
-          }
-        }
-      ],
-      "schema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "title": "category",
-        "type": "object",
-        "properties": {
-          "id": {
-            "description": "Unique identifier for the object.",
-            "type": "integer",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "count": {
-            "description": "Number of published posts for the object.",
-            "type": "integer",
-            "context": [
-              "view"
-            ],
-            "readonly": true
-          },
-          "description": {
-            "description": "A human-readable description of the object.",
-            "type": "string",
-            "context": [
-              "view"
-            ]
-          },
-          "link": {
-            "description": "URL to the object.",
-            "type": "string",
-            "format": "uri",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "name": {
-            "description": "The title for the object.",
-            "type": "string",
-            "context": [
-              "view",
-              "embed"
-            ],
-            "required": true
-          },
-          "slug": {
-            "description": "An alphanumeric identifier for the object unique to its type.",
-            "type": "string",
-            "context": [
-              "view",
-              "embed"
-            ]
-          },
-          "taxonomy": {
-            "description": "Type attribution for the object.",
-            "type": "string",
-            "enum": [
-              "category",
-              "post_tag",
-              "nav_menu",
-              "link_category",
-              "post_format"
-            ],
-            "context": [
-              "view",
-              "embed"
-            ],
-            "readonly": true
-          },
-          "parent": {
-            "description": "The id for the parent of the object.",
-            "type": "integer",
-            "context": [
-              "view"
-            ]
-          }
-        }
-      },
-      "nicename": "/wp/v2/posts/&lt;post_id&gt;/categories/&lt;term_id&gt;"
-    },
     "/wp/v2/categories": {
       "namespace": "wp/v2",
       "methods": [
@@ -272,7 +18,8 @@
               "default": "view",
               "enum": [
                 "view",
-                "embed"
+                "embed",
+                "edit"
               ],
               "description": "Scope under which the request is made; determines fields present in response."
             },
@@ -325,16 +72,24 @@
                 "description",
                 "count"
               ],
-              "description": "Sort collection by object attribute."
+              "description": "Sort collection by resource attribute."
             },
             "hide_empty": {
               "required": false,
               "default": false,
-              "description": "Whether to hide terms not assigned to any posts."
+              "description": "Whether to hide resources not assigned to any posts."
             },
             "parent": {
               "required": false,
-              "description": "Limit result set to terms assigned to a specific parent term."
+              "description": "Limit result set to resources assigned to a specific parent."
+            },
+            "post": {
+              "required": false,
+              "description": "Limit result set to resources assigned to a specific post."
+            },
+            "slug": {
+              "required": false,
+              "description": "Limit result set to resources with a specific slug."
             }
           }
         },
@@ -344,16 +99,20 @@
           ],
           "args": {
             "description": {
-              "required": false
+              "required": false,
+              "description": "HTML description of the resource."
             },
             "name": {
-              "required": true
+              "required": true,
+              "description": "HTML title for the resource."
             },
             "slug": {
-              "required": false
+              "required": false,
+              "description": "An alphanumeric identifier for the resource unique to its type."
             },
             "parent": {
-              "required": false
+              "required": false,
+              "description": "The id for the parent of the resource."
             }
           }
         }
@@ -364,58 +123,64 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "Unique identifier for the object.",
+            "description": "Unique identifier for the resource.",
             "type": "integer",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "count": {
-            "description": "Number of published posts for the object.",
+            "description": "Number of published posts for the resource.",
             "type": "integer",
             "context": [
-              "view"
+              "view",
+              "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the object.",
+            "description": "HTML description of the resource.",
             "type": "string",
             "context": [
-              "view"
+              "view",
+              "edit"
             ]
           },
           "link": {
-            "description": "URL to the object.",
+            "description": "URL to the resource.",
             "type": "string",
             "format": "uri",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "name": {
-            "description": "The title for the object.",
+            "description": "HTML title for the resource.",
             "type": "string",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "required": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the object unique to its type.",
+            "description": "An alphanumeric identifier for the resource unique to its type.",
             "type": "string",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ]
           },
           "taxonomy": {
-            "description": "Type attribution for the object.",
+            "description": "Type attribution for the resource.",
             "type": "string",
             "enum": [
               "category",
@@ -426,21 +191,23 @@
             ],
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the object.",
+            "description": "The id for the parent of the resource.",
             "type": "integer",
             "context": [
-              "view"
+              "view",
+              "edit"
             ]
           }
         }
       },
       "_links": {
-        "self": "http://demo.wp-api.org/wp-json/wp/v2/categories"
+        "self": "https://demo.wp-api.org/wp-json/wp/v2/categories"
       },
       "nicename": "/wp/v2/categories"
     },
@@ -464,7 +231,8 @@
               "default": "view",
               "enum": [
                 "view",
-                "embed"
+                "embed",
+                "edit"
               ],
               "description": "Scope under which the request is made; determines fields present in response."
             }
@@ -478,16 +246,20 @@
           ],
           "args": {
             "description": {
-              "required": false
+              "required": false,
+              "description": "HTML description of the resource."
             },
             "name": {
-              "required": false
+              "required": false,
+              "description": "HTML title for the resource."
             },
             "slug": {
-              "required": false
+              "required": false,
+              "description": "An alphanumeric identifier for the resource unique to its type."
             },
             "parent": {
-              "required": false
+              "required": false,
+              "description": "The id for the parent of the resource."
             }
           }
         },
@@ -510,58 +282,64 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "Unique identifier for the object.",
+            "description": "Unique identifier for the resource.",
             "type": "integer",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "count": {
-            "description": "Number of published posts for the object.",
+            "description": "Number of published posts for the resource.",
             "type": "integer",
             "context": [
-              "view"
+              "view",
+              "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the object.",
+            "description": "HTML description of the resource.",
             "type": "string",
             "context": [
-              "view"
+              "view",
+              "edit"
             ]
           },
           "link": {
-            "description": "URL to the object.",
+            "description": "URL to the resource.",
             "type": "string",
             "format": "uri",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "name": {
-            "description": "The title for the object.",
+            "description": "HTML title for the resource.",
             "type": "string",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "required": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the object unique to its type.",
+            "description": "An alphanumeric identifier for the resource unique to its type.",
             "type": "string",
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ]
           },
           "taxonomy": {
-            "description": "Type attribution for the object.",
+            "description": "Type attribution for the resource.",
             "type": "string",
             "enum": [
               "category",
@@ -572,15 +350,17 @@
             ],
             "context": [
               "view",
-              "embed"
+              "embed",
+              "edit"
             ],
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the object.",
+            "description": "The id for the parent of the resource.",
             "type": "integer",
             "context": [
-              "view"
+              "view",
+              "edit"
             ]
           }
         }
@@ -594,58 +374,64 @@
     "type": "object",
     "properties": {
       "id": {
-        "description": "Unique identifier for the object.",
+        "description": "Unique identifier for the resource.",
         "type": "integer",
         "context": [
           "view",
-          "embed"
+          "embed",
+          "edit"
         ],
         "readonly": true
       },
       "count": {
-        "description": "Number of published posts for the object.",
+        "description": "Number of published posts for the resource.",
         "type": "integer",
         "context": [
-          "view"
+          "view",
+          "edit"
         ],
         "readonly": true
       },
       "description": {
-        "description": "A human-readable description of the object.",
+        "description": "HTML description of the resource.",
         "type": "string",
         "context": [
-          "view"
+          "view",
+          "edit"
         ]
       },
       "link": {
-        "description": "URL to the object.",
+        "description": "URL to the resource.",
         "type": "string",
         "format": "uri",
         "context": [
           "view",
-          "embed"
+          "embed",
+          "edit"
         ],
         "readonly": true
       },
       "name": {
-        "description": "The title for the object.",
+        "description": "HTML title for the resource.",
         "type": "string",
         "context": [
           "view",
-          "embed"
+          "embed",
+          "edit"
         ],
         "required": true
       },
       "slug": {
-        "description": "An alphanumeric identifier for the object unique to its type.",
+        "description": "An alphanumeric identifier for the resource unique to its type.",
         "type": "string",
         "context": [
           "view",
-          "embed"
+          "embed",
+          "edit"
         ]
       },
       "taxonomy": {
-        "description": "Type attribution for the object.",
+        "description": "Type attribution for the resource.",
         "type": "string",
         "enum": [
           "category",
@@ -656,15 +442,17 @@
         ],
         "context": [
           "view",
-          "embed"
+          "embed",
+          "edit"
         ],
         "readonly": true
       },
       "parent": {
-        "description": "The id for the parent of the object.",
+        "description": "The id for the parent of the resource.",
         "type": "integer",
         "context": [
-          "view"
+          "view",
+          "edit"
         ]
       }
     }

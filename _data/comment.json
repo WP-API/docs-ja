@@ -37,9 +37,25 @@
               "required": false,
               "description": "Limit results to those matching a string."
             },
+            "after": {
+              "required": false,
+              "description": "Limit response to resources published after a given ISO8601 compliant date."
+            },
+            "author": {
+              "required": false,
+              "description": "Limit result set to comments assigned to specific user ids. Requires authorization."
+            },
+            "author_exclude": {
+              "required": false,
+              "description": "Ensure result set excludes comments assigned to specific user ids. Requires authorization."
+            },
             "author_email": {
               "required": false,
-              "description": "Limit result set to that from a specific author email."
+              "description": "Limit result set to that from a specific author email. Requires authorization."
+            },
+            "before": {
+              "required": false,
+              "description": "Limit response to resources published before a given ISO8601 compliant date."
             },
             "exclude": {
               "required": false,
@@ -57,7 +73,11 @@
             },
             "karma": {
               "required": false,
-              "description": "Limit result set to that of a particular comment karma."
+              "description": "Limit result set to that of a particular comment karma. Requires authorization."
+            },
+            "offset": {
+              "required": false,
+              "description": "Offset the result set by a specific number of comments."
             },
             "order": {
               "required": false,
@@ -71,49 +91,47 @@
             "orderby": {
               "required": false,
               "default": "date_gmt",
+              "enum": [
+                "date",
+                "date_gmt",
+                "id",
+                "include",
+                "post",
+                "parent",
+                "type"
+              ],
               "description": "Sort collection by object attribute."
             },
             "parent": {
               "required": false,
-              "description": "Limit result set to that of a specific comment parent id."
+              "default": [
+
+              ],
+              "description": "Limit result set to resources of specific parent ids."
+            },
+            "parent_exclude": {
+              "required": false,
+              "default": [
+
+              ],
+              "description": "Ensure result set excludes specific parent ids."
             },
             "post": {
               "required": false,
-              "description": "Limit result set to comments assigned to a specific post id."
-            },
-            "post_author": {
-              "required": false,
-              "description": "Limit result set to comments associated with posts of a specific post author id."
-            },
-            "post_slug": {
-              "required": false,
-              "description": "Limit result set to comments associated with posts of a specific post slug."
-            },
-            "post_parent": {
-              "required": false,
-              "description": "Limit result set to comments associated with posts of a specific post parent id."
-            },
-            "post_status": {
-              "required": false,
-              "description": "Limit result set to comments associated with posts of a specific post status."
-            },
-            "post_type": {
-              "required": false,
-              "description": "Limit result set to comments associated with posts of a specific post type."
+              "default": [
+
+              ],
+              "description": "Limit result set to resources assigned to specific post ids."
             },
             "status": {
               "required": false,
               "default": "approve",
-              "description": "Limit result set to comments assigned a specific status."
+              "description": "Limit result set to comments assigned a specific status. Requires authorization."
             },
             "type": {
               "required": false,
               "default": "comment",
-              "description": "Limit result set to comments assigned a specific type."
-            },
-            "user": {
-              "required": false,
-              "description": "Limit result set to comments assigned to a specific user id."
+              "description": "Limit result set to comments assigned a specific type. Requires authorization."
             }
           }
         },
@@ -123,45 +141,62 @@
           ],
           "args": {
             "author": {
-              "required": false
+              "required": false,
+              "description": "The id of the user object, if author was a user."
             },
             "author_email": {
-              "required": false
+              "required": false,
+              "description": "Email address for the object author."
+            },
+            "author_ip": {
+              "required": false,
+              "default": "127.0.0.1",
+              "description": "IP address for the object author."
             },
             "author_name": {
               "required": false,
-              "default": ""
+              "default": "",
+              "description": "Display name for the object author."
             },
             "author_url": {
-              "required": false
+              "required": false,
+              "description": "URL for the object author."
             },
             "content": {
               "required": false,
-              "default": ""
+              "default": "",
+              "description": "The content for the object."
             },
             "date": {
-              "required": false
+              "required": false,
+              "description": "The date the object was published."
             },
             "date_gmt": {
-              "required": false
+              "required": false,
+              "description": "The date the object was published as GMT."
             },
             "karma": {
-              "required": false
+              "required": false,
+              "description": "Karma for the object."
             },
             "parent": {
               "required": false,
-              "default": 0
+              "default": 0,
+              "description": "The id for the parent of the object."
             },
             "post": {
               "required": false,
-              "default": 0
+              "default": 0,
+              "description": "The id of the associated post object."
             },
             "status": {
-              "required": false
+              "required": false,
+              "description": "State of the object."
             },
             "type": {
               "required": false,
-              "default": ""
+              "default": "",
+              "description": "Type of Comment for the object."
             }
           }
         }
@@ -190,48 +225,6 @@
               "embed"
             ]
           },
-          "author_avatar_urls": {
-            "description": "Avatar URLs for the object author.",
-            "type": "object",
-            "context": [
-              "view",
-              "edit",
-              "embed"
-            ],
-            "readonly": true,
-            "properties": {
-              "24": {
-                "description": "Avatar URL with image size of 24 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              },
-              "48": {
-                "description": "Avatar URL with image size of 48 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              },
-              "96": {
-                "description": "Avatar URL with image size of 96 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              }
-            }
-          },
           "author_email": {
             "description": "Email address for the object author.",
             "type": "string",
@@ -243,10 +236,10 @@
           "author_ip": {
             "description": "IP address for the object author.",
             "type": "string",
+            "format": "ipv4",
             "context": [
               "edit"
-            ],
-            "readonly": true
+            ]
           },
           "author_name": {
             "description": "Display name for the object author.",
@@ -292,7 +285,7 @@
                 ]
               },
               "rendered": {
-                "description": "Content for the object, transformed for display.",
+                "description": "HTML content for the object, transformed for display.",
                 "type": "string",
                 "context": [
                   "view",
@@ -372,11 +365,53 @@
               "edit",
               "embed"
             ]
+          },
+          "author_avatar_urls": {
+            "description": "Avatar URLs for the object author.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true,
+            "properties": {
+              "24": {
+                "description": "Avatar URL with image size of 24 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              },
+              "48": {
+                "description": "Avatar URL with image size of 48 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              },
+              "96": {
+                "description": "Avatar URL with image size of 96 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              }
+            }
           }
         }
       },
       "_links": {
-        "self": "http://demo.wp-api.org/wp-json/wp/v2/comments"
+        "self": "https://demo.wp-api.org/wp-json/wp/v2/comments"
       },
       "nicename": "/wp/v2/comments"
     },
@@ -415,40 +450,56 @@
           ],
           "args": {
             "author": {
-              "required": false
+              "required": false,
+              "description": "The id of the user object, if author was a user."
             },
             "author_email": {
-              "required": false
+              "required": false,
+              "description": "Email address for the object author."
+            },
+            "author_ip": {
+              "required": false,
+              "description": "IP address for the object author."
             },
             "author_name": {
-              "required": false
+              "required": false,
+              "description": "Display name for the object author."
             },
             "author_url": {
-              "required": false
+              "required": false,
+              "description": "URL for the object author."
             },
             "content": {
-              "required": false
+              "required": false,
+              "description": "The content for the object."
             },
             "date": {
-              "required": false
+              "required": false,
+              "description": "The date the object was published."
             },
             "date_gmt": {
-              "required": false
+              "required": false,
+              "description": "The date the object was published as GMT."
             },
             "karma": {
-              "required": false
+              "required": false,
+              "description": "Karma for the object."
             },
             "parent": {
-              "required": false
+              "required": false,
+              "description": "The id for the parent of the object."
             },
             "post": {
-              "required": false
+              "required": false,
+              "description": "The id of the associated post object."
             },
             "status": {
-              "required": false
+              "required": false,
+              "description": "State of the object."
             },
             "type": {
-              "required": false
+              "required": false,
+              "description": "Type of Comment for the object."
             }
           }
         },
@@ -489,48 +540,6 @@
               "embed"
             ]
           },
-          "author_avatar_urls": {
-            "description": "Avatar URLs for the object author.",
-            "type": "object",
-            "context": [
-              "view",
-              "edit",
-              "embed"
-            ],
-            "readonly": true,
-            "properties": {
-              "24": {
-                "description": "Avatar URL with image size of 24 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              },
-              "48": {
-                "description": "Avatar URL with image size of 48 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              },
-              "96": {
-                "description": "Avatar URL with image size of 96 pixels.",
-                "type": "string",
-                "format": "uri",
-                "context": [
-                  "embed",
-                  "view",
-                  "edit"
-                ]
-              }
-            }
-          },
           "author_email": {
             "description": "Email address for the object author.",
             "type": "string",
@@ -542,10 +551,10 @@
           "author_ip": {
             "description": "IP address for the object author.",
             "type": "string",
+            "format": "ipv4",
             "context": [
               "edit"
-            ],
-            "readonly": true
+            ]
           },
           "author_name": {
             "description": "Display name for the object author.",
@@ -591,7 +600,7 @@
                 ]
               },
               "rendered": {
-                "description": "Content for the object, transformed for display.",
+                "description": "HTML content for the object, transformed for display.",
                 "type": "string",
                 "context": [
                   "view",
@@ -671,6 +680,48 @@
               "edit",
               "embed"
             ]
+          },
+          "author_avatar_urls": {
+            "description": "Avatar URLs for the object author.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true,
+            "properties": {
+              "24": {
+                "description": "Avatar URL with image size of 24 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              },
+              "48": {
+                "description": "Avatar URL with image size of 48 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              },
+              "96": {
+                "description": "Avatar URL with image size of 96 pixels.",
+                "type": "string",
+                "format": "uri",
+                "context": [
+                  "embed",
+                  "view",
+                  "edit"
+                ]
+              }
+            }
           }
         }
       },
@@ -701,48 +752,6 @@
           "embed"
         ]
       },
-      "author_avatar_urls": {
-        "description": "Avatar URLs for the object author.",
-        "type": "object",
-        "context": [
-          "view",
-          "edit",
-          "embed"
-        ],
-        "readonly": true,
-        "properties": {
-          "24": {
-            "description": "Avatar URL with image size of 24 pixels.",
-            "type": "string",
-            "format": "uri",
-            "context": [
-              "embed",
-              "view",
-              "edit"
-            ]
-          },
-          "48": {
-            "description": "Avatar URL with image size of 48 pixels.",
-            "type": "string",
-            "format": "uri",
-            "context": [
-              "embed",
-              "view",
-              "edit"
-            ]
-          },
-          "96": {
-            "description": "Avatar URL with image size of 96 pixels.",
-            "type": "string",
-            "format": "uri",
-            "context": [
-              "embed",
-              "view",
-              "edit"
-            ]
-          }
-        }
-      },
       "author_email": {
         "description": "Email address for the object author.",
         "type": "string",
@@ -754,10 +763,10 @@
       "author_ip": {
         "description": "IP address for the object author.",
         "type": "string",
+        "format": "ipv4",
         "context": [
           "edit"
-        ],
-        "readonly": true
+        ]
       },
       "author_name": {
         "description": "Display name for the object author.",
@@ -803,7 +812,7 @@
             ]
           },
           "rendered": {
-            "description": "Content for the object, transformed for display.",
+            "description": "HTML content for the object, transformed for display.",
             "type": "string",
             "context": [
               "view",
@@ -883,6 +892,48 @@
           "edit",
           "embed"
         ]
+      },
+      "author_avatar_urls": {
+        "description": "Avatar URLs for the object author.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ],
+        "readonly": true,
+        "properties": {
+          "24": {
+            "description": "Avatar URL with image size of 24 pixels.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "embed",
+              "view",
+              "edit"
+            ]
+          },
+          "48": {
+            "description": "Avatar URL with image size of 48 pixels.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "embed",
+              "view",
+              "edit"
+            ]
+          },
+          "96": {
+            "description": "Avatar URL with image size of 96 pixels.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "embed",
+              "view",
+              "edit"
+            ]
+          }
+        }
       }
     }
   }
