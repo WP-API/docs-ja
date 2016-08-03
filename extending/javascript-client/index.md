@@ -31,7 +31,7 @@ Models:
  * Page
  * PageMeta
  * PageRevision
- * Posts
+ * Post
  * PostMeta
  * PostRevision
  * Schema
@@ -63,7 +63,7 @@ You can use these endpoints as-is to read, update, create and delete items using
 Each model and collection includes a reference to its default values, for example:
 
 ```
-wp.api.models.Posts.defaults
+wp.api.models.Post.prototype.args
  * author: null
  * comment_status: null
  * content: null
@@ -84,7 +84,7 @@ wp.api.models.Posts.defaults
 
 ### Available methods
 
-Each model and collection contains a list of methods the corrosponding endpoint supports. For example, models created from `wp.api.models.Posts` have a method array of:
+Each model and collection contains a list of methods the corresponding endpoint supports. For example, models created from `wp.api.models.Post` have a methods array of:
 
 ```
 ["GET", "POST", "PUT", "PATCH", "DELETE"]
@@ -95,7 +95,7 @@ Each model and collection contains a list of methods the corrosponding endpoint 
 Each model and collection contains a list of options the corrosponding endpoint accepts (note that options are passed as the second parameter when creating models or collections), for example:
 
 ```
-wp.api.collections.Posts.options
+wp.api.collections.Posts.prototype.options
  * author
  * context
  * filter
@@ -106,39 +106,48 @@ wp.api.collections.Posts.options
  * search
  * status
 ```
+
+### Waiting for the client to load
+Client startup is asynchronous. If the api schema is localized, the client can start immediately; if not the client makes an ajax request to load the schema. The client exposes a load promise for provide a reliable wait to wait for client to be ready:
+
+```js
+wp.api.loadPromise.done( function() {
+	//... use the client here
+} )
+```
+
 ### Model examples:
 
 To create a post and edit its categories, make sure you are logged in, then:
 
-```
+```js
 // Create a new post
-var post = new wp.api.models.Posts( { title: 'This is a test post' } );
+var post = new wp.api.models.Post( { title: 'This is a test post' } );
 post.save();
 
-// Create a new post
-var post = new wp.api.models.Posts({ title:'new test' } );
-post.save();
-
-// Get a collection of the post's categories
-var postCategories = post.getCategories();
+// Load an existing post
+var post = new wp.api.models.Post( { id: 1 } );
+post.fetch();
 
 // Get a collection of the post's categories (returns a promise)
 // Uses _embedded data if available, in which case promise resolves immediately.
 post.getCategories().done( function( postCategories ) {
 	// ... do something with the categories.
 	// The new post has an single Category: Uncategorized
-	postCategories.at( 0 ).get( 'name' );
+	console.log( postCategories[0].name );
 	// response -> "Uncategorized"
 } );
 
 // Get a posts author User model.
 post.getAuthorUser().done( function( user ){
 	// ... do something with user
+	console.log( user.get( 'name' ) );
 } );
 
 // Get a posts featured image Media model.
 post.getFeaturedImage().done( function( image ){
 	// ... do something with image
+	console.log( image );
 } );
 
 // Set the post categories.
@@ -170,26 +179,26 @@ postCategories.at( 0 ).get( 'name' );
 
 to get the last 10 posts:
 
-```
+```js
 var postsCollection = new wp.api.collections.Posts();
 postsCollection.fetch();
 ```
 
 to get the last 25 posts:
 
-```
+```js
 postsCollection.fetch( { data: { per_page: 25 } } );
 ```
 
 use filter to change the order & orderby options:
 
-```
+```js
 postsCollection.fetch( { data: { 'filter': { 'orderby': 'title', 'order': 'ASC' } } } );
 ```
 
 All collections support pagination automatically, and you can get the next page of results using `more`:
 
-```
+```js
 postsCollection.more();
 ```
 

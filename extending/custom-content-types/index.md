@@ -37,7 +37,7 @@ Here is an example of registering a post type, with support for the REST API:
   		'not_found'          => __( 'No books found.', 'your-plugin-textdomain' ),
   		'not_found_in_trash' => __( 'No books found in Trash.', 'your-plugin-textdomain' )
   	);
-  
+
   	$args = array(
   		'labels'             => $labels,
   		'description'        => __( 'Description.', 'your-plugin-textdomain' ),
@@ -56,7 +56,7 @@ Here is an example of registering a post type, with support for the REST API:
   		'rest_controller_class' => 'WP_REST_Posts_Controller',
   		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
   	);
-  
+
   	register_post_type( 'book', $args );
 }
 ```
@@ -78,7 +78,7 @@ Here is an example of how to register a custom taxonomy, with REST API support:
    */
   add_action( 'init', 'my_book_taxonomy', 30 );
   function my_book_taxonomy() {
-  
+
   	$labels = array(
   		'name'              => _x( 'Genres', 'taxonomy general name' ),
   		'singular_name'     => _x( 'Genre', 'taxonomy singular name' ),
@@ -92,7 +92,7 @@ Here is an example of how to register a custom taxonomy, with REST API support:
   		'new_item_name'     => __( 'New Genre Name' ),
   		'menu_name'         => __( 'Genre' ),
   	);
-  
+
   	$args = array(
   		'hierarchical'      => true,
   		'labels'            => $labels,
@@ -104,9 +104,9 @@ Here is an example of how to register a custom taxonomy, with REST API support:
   		'rest_base'          => 'genre',
   		'rest_controller_class' => 'WP_REST_Terms_Controller',
   	);
-  
+
   	register_taxonomy( 'genre', array( 'book' ), $args );
-  
+
   }
 ```
 
@@ -122,7 +122,7 @@ Here is an example of adding REST API support to an existing custom post type:
   add_action( 'init', 'my_custom_post_type_rest_support', 25 );
   function my_custom_post_type_rest_support() {
   	global $wp_post_types;
-  
+
   	//be sure to set this to the name of your post type!
   	$post_type_name = 'planet';
   	if( isset( $wp_post_types[ $post_type_name ] ) ) {
@@ -130,7 +130,7 @@ Here is an example of adding REST API support to an existing custom post type:
   		$wp_post_types[$post_type_name]->rest_base = $post_type_name;
   		$wp_post_types[$post_type_name]->rest_controller_class = 'WP_REST_Posts_Controller';
   	}
-  
+
   }
 ```
 
@@ -143,17 +143,17 @@ Here is an example of how to add REST API support to an already registered custo
   add_action( 'init', 'my_custom_taxonomy_rest_support', 25 );
   function my_custom_taxonomy_rest_support() {
   	global $wp_taxonomies;
-  
+
   	//be sure to set this to the name of your taxonomy!
   	$taxonomy_name = 'planet_class';
-  
+
   	if ( isset( $wp_taxonomies[ $taxonomy_name ] ) ) {
   		$wp_taxonomies[ $taxonomy_name ]->show_in_rest = true;
   		$wp_taxonomies[ $taxonomy_name ]->rest_base = $taxonomy_name;
   		$wp_taxonomies[ $taxonomy_name ]->rest_controller_class = 'WP_REST_Terms_Controller';
   	}
-  
-  
+
+
   }
 ```
 
