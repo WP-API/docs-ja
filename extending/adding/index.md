@@ -49,7 +49,7 @@ add_action( 'rest_api_init', function () {
 } );
 ```
 
-Right now, we're only registering the one endpoint for the route. ("Route" is the URL, whereas "endpoint" is the function behind it that corresponds to a method *and* a URL. For more, see the [Glossary](/glossary.html).) Each route can have any number of endpoints, and for each endpoint, you can define the HTTP methods allowed, a callback function for responding to the request and a permissions callback for creating custom permissions. In addition you can define allowed fields in the request and for each field specify a default value, a sanitization callback, a validation callback, and whether the field is required.
+Right now, we're only registering the one endpoint for the route. ("Route" is the URL, whereas "endpoint" is the function behind it that corresponds to a method *and* a URL. For more, see the [Glossary](/glossary.html).) If your site domain is `example.com` and you've kept the API path of `wp-json`, then the full URL would be `http://example.com/wp-json/myplugin/v1/author/(?P<id>\d+)`. Each route can have any number of endpoints, and for each endpoint, you can define the HTTP methods allowed, a callback function for responding to the request and a permissions callback for creating custom permissions. In addition you can define allowed fields in the request and for each field specify a default value, a sanitization callback, a validation callback, and whether the field is required.
 
 
 ### Namespacing
@@ -99,6 +99,7 @@ function my_awesome_func( WP_REST_Request $request ) {
 	$parameters = $request->get_url_params();
 	$parameters = $request->get_query_params();
 	$parameters = $request->get_body_params();
+	$parameters = $request->get_json_params();
 	$parameters = $request->get_default_params();
 
 	// Uploads aren't merged in, but can be accessed separately:
@@ -109,6 +110,8 @@ function my_awesome_func( WP_REST_Request $request ) {
 (To find out exactly how parameters are merged, check the source of `WP_REST_Request::get_parameter_order()`; the basic order is body, query, URL, then defaults.)
 
 Normally, you'll get every parameter brought in unaltered. However, you can register your arguments when registering your route, which allows you to run sanitization and validation on these.
+
+If the request has the `Content-type: application/json` header set and valid JSON in the body, `get_json_params()` will return the parsed JSON body as an associative array.  
 
 Arguments are defined as a map in the key `args` for each endpoint (next to your `callback` option). This map uses the name of the argument of the key, with the value being a map of options for that argument. This array can contain a key for `default`, `required`, `sanitize_callback` and `validate_callback`.
 
@@ -240,7 +243,7 @@ The Controller Pattern
 
 The controller pattern is a best practice for working with complex endpoints with the API.
 
-It is recommended that you read "Extending Internal Classes" before reading this section. Doing so will familiarize you with the patterns used by the default routes, which is the best practice. While it is not required that the class you use to process your request extends the `WP_REST_Controller` class or a class that extends it, doing so allows you to inherit work done in those classes. In addition, you can rest assured that you're following best practices based on the controller methods you're using.
+It is recommended that you read ["Extending Internal Classes"](/extending/internal-classes/) before reading this section. Doing so will familiarize you with the patterns used by the default routes, which is the best practice. While it is not required that the class you use to process your request extends the `WP_REST_Controller` class or a class that extends it, doing so allows you to inherit work done in those classes. In addition, you can rest assured that you're following best practices based on the controller methods you're using.
 
 At their core, controllers are nothing more than a set of commonly named methods to match up with REST conventions, along with some handy helpers. Controllers register their routes in a `register_routes` method, respond to requests with `get_items`, `get_item`, `create_item`, `update_item` and `delete_item`, and have similarly named permission check methods. Following this pattern will ensure you don't miss any steps or functionality in your endpoints.
 
