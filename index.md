@@ -8,7 +8,7 @@ include_title: No
 
 	<img src="{{ site.baseurl }}assets/images/banner.jpg" class="banner" />
 
-	<p class="subtitle">HTTP REST APIでWordPressを自由自在！</p>
+	<p class="subtitle">HTTP REST API で WordPress を自由自在！</p>
 
 	<a href="https://wordpress.org/plugins/rest-api/" class="download button radius">
 		ダウンロード
@@ -27,10 +27,10 @@ include_title: No
 はじめに
 -----
 
-WordPressはアプリケーションフレームワークへと生まれ変わろうとしています。このプロジェクトは、簡単で理解しやすく、信頼性の高いAPIフレームワークを開発することを目的として生まれました。そしてWordPress本体のAPIを開発することも目的としています。
+WordPress はアプリケーションフレームワークへと生まれ変わろうとしています。このプロジェクトは、簡単で理解しやすく、信頼性の高い API フレームワークを開発することを目的として生まれました。そして WordPress 本体の API を開発することも目的としています。
 
-このプラグインは簡単なHTTPベースのREST APIを提供します。あなたのサイトのユーザー、投稿、タクソノミー、その他のデータに対してシンプルなHTTPリクエストを送信することで、取り出したりアップデートすることが可能です。
+このプラグインは簡単な HTTP ベースの REST API を提供します。あなたのサイトのユーザー、投稿、タクソノミー、その他のデータに対してシンプルな HTTP リクエストを送信することで、取り出したりアップデートすることが可能です。
 
 投稿を取得したい？ `GET` リクエストを `/wp-json/wp/v2/posts` に送るだけです。 IDが4のユーザーをアップデートしたい? `POST` リクエストを `/wp-json/wp/v2/users/4` に送ってください。 "awesome"という単語が含まれるすべての投稿を検索するには、`GET /wp-json/wp/v2/posts?search=awesome` です。 たったこれだけ。簡単ですよね。
 
-このAPIは、WordPressの投稿API、メタデータAPI、ユーザーAPIなどにアクセスするWP Queryのシンプルなインターフェースです。もしあなたがWordPressで何かを始めたいのなら、このAPIがそれを可能にするでしょう。
+このAPIは、WordPress の投稿 API、メタデータ API 、ユーザー API などにアクセスする WP Query のシンプルなインターフェースです。もしあなたが WordPress で何かを始めたいのなら、この API がそれを可能にするでしょう。
