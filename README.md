@@ -34,6 +34,4 @@ Open http://0.0.0.0:4000 in your browser to see the site
 
 Styles use of [Foundation v 5.5.3](http://foundation.zurb.com/sites/docs/v/5.5.3/)
 
-### Translators
 
-[Takayuki Miyauchi](https://github.com/miya0001), [Shinichi Nishikawa](https://github.com/ShinichiNishikawa), [Takahashi Fumiki](https://github.com/fumikito), [Mayuko Moriyama](https://github.com/mayukojpn)
