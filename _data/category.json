@@ -21,35 +21,47 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             },
             "page": {
               "required": false,
               "default": 1,
-              "description": "Current page of the collection."
+              "description": "Current page of the collection.",
+              "type": "integer"
             },
             "per_page": {
               "required": false,
               "default": 10,
-              "description": "Maximum number of items to be returned in result set."
+              "description": "Maximum number of items to be returned in result set.",
+              "type": "integer"
             },
             "search": {
               "required": false,
-              "description": "Limit results to those matching a string."
+              "description": "Limit results to those matching a string.",
+              "type": "string"
             },
             "exclude": {
               "required": false,
               "default": [
 
               ],
-              "description": "Ensure result set excludes specific ids."
+              "description": "Ensure result set excludes specific IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "include": {
               "required": false,
               "default": [
 
               ],
-              "description": "Limit result set to specific ids."
+              "description": "Limit result set to specific IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "order": {
               "required": false,
@@ -58,7 +70,8 @@
                 "asc",
                 "desc"
               ],
-              "description": "Order sort attribute ascending or descending."
+              "description": "Order sort attribute ascending or descending.",
+              "type": "string"
             },
             "orderby": {
               "required": false,
@@ -68,28 +81,37 @@
                 "include",
                 "name",
                 "slug",
+                "include_slugs",
                 "term_group",
                 "description",
                 "count"
               ],
-              "description": "Sort collection by resource attribute."
+              "description": "Sort collection by term attribute.",
+              "type": "string"
             },
             "hide_empty": {
               "required": false,
               "default": false,
-              "description": "Whether to hide resources not assigned to any posts."
+              "description": "Whether to hide terms not assigned to any posts.",
+              "type": "boolean"
             },
             "parent": {
               "required": false,
-              "description": "Limit result set to resources assigned to a specific parent."
+              "description": "Limit result set to terms assigned to a specific parent.",
+              "type": "integer"
             },
             "post": {
               "required": false,
-              "description": "Limit result set to resources assigned to a specific post."
+              "description": "Limit result set to terms assigned to a specific post.",
+              "type": "integer"
             },
             "slug": {
               "required": false,
-              "description": "Limit result set to resources with a specific slug."
+              "description": "Limit result set to terms with one or more specific slugs.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         },
@@ -100,19 +122,28 @@
           "args": {
             "description": {
               "required": false,
-              "description": "HTML description of the resource."
+              "description": "HTML description of the term.",
+              "type": "string"
             },
             "name": {
               "required": true,
-              "description": "HTML title for the resource."
+              "description": "HTML title for the term.",
+              "type": "string"
             },
             "slug": {
               "required": false,
-              "description": "An alphanumeric identifier for the resource unique to its type."
+              "description": "An alphanumeric identifier for the term unique to its type.",
+              "type": "string"
             },
             "parent": {
               "required": false,
-              "description": "The id for the parent of the resource."
+              "description": "The parent term ID.",
+              "type": "integer"
+            },
+            "meta": {
+              "required": false,
+              "description": "Meta fields.",
+              "type": "object"
             }
           }
         }
@@ -123,7 +154,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "Unique identifier for the resource.",
+            "description": "Unique identifier for the term.",
             "type": "integer",
             "context": [
               "view",
@@ -133,7 +164,7 @@
             "readonly": true
           },
           "count": {
-            "description": "Number of published posts for the resource.",
+            "description": "Number of published posts for the term.",
             "type": "integer",
             "context": [
               "view",
@@ -142,7 +173,7 @@
             "readonly": true
           },
           "description": {
-            "description": "HTML description of the resource.",
+            "description": "HTML description of the term.",
             "type": "string",
             "context": [
               "view",
@@ -150,7 +181,7 @@
             ]
           },
           "link": {
-            "description": "URL to the resource.",
+            "description": "URL of the term.",
             "type": "string",
             "format": "uri",
             "context": [
@@ -161,7 +192,7 @@
             "readonly": true
           },
           "name": {
-            "description": "HTML title for the resource.",
+            "description": "HTML title for the term.",
             "type": "string",
             "context": [
               "view",
@@ -171,7 +202,7 @@
             "required": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource unique to its type.",
+            "description": "An alphanumeric identifier for the term unique to its type.",
             "type": "string",
             "context": [
               "view",
@@ -180,7 +211,7 @@
             ]
           },
           "taxonomy": {
-            "description": "Type attribution for the resource.",
+            "description": "Type attribution for the term.",
             "type": "string",
             "enum": [
               "category",
@@ -197,11 +228,22 @@
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the resource.",
+            "description": "The parent term ID.",
             "type": "integer",
             "context": [
               "view",
               "edit"
+            ]
+          },
+          "meta": {
+            "description": "Meta fields.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": [
+
             ]
           }
         }
@@ -226,6 +268,11 @@
             "GET"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the term.",
+              "type": "integer"
+            },
             "context": {
               "required": false,
               "default": "view",
@@ -234,7 +281,8 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             }
           }
         },
@@ -245,21 +293,35 @@
             "PATCH"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the term.",
+              "type": "integer"
+            },
             "description": {
               "required": false,
-              "description": "HTML description of the resource."
+              "description": "HTML description of the term.",
+              "type": "string"
             },
             "name": {
               "required": false,
-              "description": "HTML title for the resource."
+              "description": "HTML title for the term.",
+              "type": "string"
             },
             "slug": {
               "required": false,
-              "description": "An alphanumeric identifier for the resource unique to its type."
+              "description": "An alphanumeric identifier for the term unique to its type.",
+              "type": "string"
             },
             "parent": {
               "required": false,
-              "description": "The id for the parent of the resource."
+              "description": "The parent term ID.",
+              "type": "integer"
+            },
+            "meta": {
+              "required": false,
+              "description": "Meta fields.",
+              "type": "object"
             }
           }
         },
@@ -268,10 +330,16 @@
             "DELETE"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the term.",
+              "type": "integer"
+            },
             "force": {
               "required": false,
               "default": false,
-              "description": "Required to be true, as resource does not support trashing."
+              "description": "Required to be true, as terms do not support trashing.",
+              "type": "boolean"
             }
           }
         }
@@ -282,7 +350,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "Unique identifier for the resource.",
+            "description": "Unique identifier for the term.",
             "type": "integer",
             "context": [
               "view",
@@ -292,7 +360,7 @@
             "readonly": true
           },
           "count": {
-            "description": "Number of published posts for the resource.",
+            "description": "Number of published posts for the term.",
             "type": "integer",
             "context": [
               "view",
@@ -301,7 +369,7 @@
             "readonly": true
           },
           "description": {
-            "description": "HTML description of the resource.",
+            "description": "HTML description of the term.",
             "type": "string",
             "context": [
               "view",
@@ -309,7 +377,7 @@
             ]
           },
           "link": {
-            "description": "URL to the resource.",
+            "description": "URL of the term.",
             "type": "string",
             "format": "uri",
             "context": [
@@ -320,7 +388,7 @@
             "readonly": true
           },
           "name": {
-            "description": "HTML title for the resource.",
+            "description": "HTML title for the term.",
             "type": "string",
             "context": [
               "view",
@@ -330,7 +398,7 @@
             "required": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource unique to its type.",
+            "description": "An alphanumeric identifier for the term unique to its type.",
             "type": "string",
             "context": [
               "view",
@@ -339,7 +407,7 @@
             ]
           },
           "taxonomy": {
-            "description": "Type attribution for the resource.",
+            "description": "Type attribution for the term.",
             "type": "string",
             "enum": [
               "category",
@@ -356,11 +424,22 @@
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the resource.",
+            "description": "The parent term ID.",
             "type": "integer",
             "context": [
               "view",
               "edit"
+            ]
+          },
+          "meta": {
+            "description": "Meta fields.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": [
+
             ]
           }
         }
@@ -374,7 +453,7 @@
     "type": "object",
     "properties": {
       "id": {
-        "description": "Unique identifier for the resource.",
+        "description": "Unique identifier for the term.",
         "type": "integer",
         "context": [
           "view",
@@ -384,7 +463,7 @@
         "readonly": true
       },
       "count": {
-        "description": "Number of published posts for the resource.",
+        "description": "Number of published posts for the term.",
         "type": "integer",
         "context": [
           "view",
@@ -393,7 +472,7 @@
         "readonly": true
       },
       "description": {
-        "description": "HTML description of the resource.",
+        "description": "HTML description of the term.",
         "type": "string",
         "context": [
           "view",
@@ -401,7 +480,7 @@
         ]
       },
       "link": {
-        "description": "URL to the resource.",
+        "description": "URL of the term.",
         "type": "string",
         "format": "uri",
         "context": [
@@ -412,7 +491,7 @@
         "readonly": true
       },
       "name": {
-        "description": "HTML title for the resource.",
+        "description": "HTML title for the term.",
         "type": "string",
         "context": [
           "view",
@@ -422,7 +501,7 @@
         "required": true
       },
       "slug": {
-        "description": "An alphanumeric identifier for the resource unique to its type.",
+        "description": "An alphanumeric identifier for the term unique to its type.",
         "type": "string",
         "context": [
           "view",
@@ -431,7 +510,7 @@
         ]
       },
       "taxonomy": {
-        "description": "Type attribution for the resource.",
+        "description": "Type attribution for the term.",
         "type": "string",
         "enum": [
           "category",
@@ -448,11 +527,22 @@
         "readonly": true
       },
       "parent": {
-        "description": "The id for the parent of the resource.",
+        "description": "The parent term ID.",
         "type": "integer",
         "context": [
           "view",
           "edit"
+        ]
+      },
+      "meta": {
+        "description": "Meta fields.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit"
+        ],
+        "properties": [
+
         ]
       }
     }

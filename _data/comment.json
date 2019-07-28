@@ -21,72 +21,93 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             },
             "page": {
               "required": false,
               "default": 1,
-              "description": "Current page of the collection."
+              "description": "Current page of the collection.",
+              "type": "integer"
             },
             "per_page": {
               "required": false,
               "default": 10,
-              "description": "Maximum number of items to be returned in result set."
+              "description": "Maximum number of items to be returned in result set.",
+              "type": "integer"
             },
             "search": {
               "required": false,
-              "description": "Limit results to those matching a string."
+              "description": "Limit results to those matching a string.",
+              "type": "string"
             },
             "after": {
               "required": false,
-              "description": "Limit response to resources published after a given ISO8601 compliant date."
+              "description": "Limit response to comments published after a given ISO8601 compliant date.",
+              "type": "string"
             },
             "author": {
               "required": false,
-              "description": "Limit result set to comments assigned to specific user ids. Requires authorization."
+              "description": "Limit result set to comments assigned to specific user IDs. Requires authorization.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "author_exclude": {
               "required": false,
-              "description": "Ensure result set excludes comments assigned to specific user ids. Requires authorization."
+              "description": "Ensure result set excludes comments assigned to specific user IDs. Requires authorization.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "author_email": {
               "required": false,
-              "description": "Limit result set to that from a specific author email. Requires authorization."
+              "description": "Limit result set to that from a specific author email. Requires authorization.",
+              "type": "string"
             },
             "before": {
               "required": false,
-              "description": "Limit response to resources published before a given ISO8601 compliant date."
+              "description": "Limit response to comments published before a given ISO8601 compliant date.",
+              "type": "string"
             },
             "exclude": {
               "required": false,
               "default": [
 
               ],
-              "description": "Ensure result set excludes specific ids."
+              "description": "Ensure result set excludes specific IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "include": {
               "required": false,
               "default": [
 
               ],
-              "description": "Limit result set to specific ids."
-            },
-            "karma": {
-              "required": false,
-              "description": "Limit result set to that of a particular comment karma. Requires authorization."
+              "description": "Limit result set to specific IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "offset": {
               "required": false,
-              "description": "Offset the result set by a specific number of comments."
+              "description": "Offset the result set by a specific number of items.",
+              "type": "integer"
             },
             "order": {
               "required": false,
-              "default": "asc",
+              "default": "desc",
               "enum": [
                 "asc",
                 "desc"
               ],
-              "description": "Order sort attribute ascending or descending."
+              "description": "Order sort attribute ascending or descending.",
+              "type": "string"
             },
             "orderby": {
               "required": false,
@@ -100,38 +121,58 @@
                 "parent",
                 "type"
               ],
-              "description": "Sort collection by object attribute."
+              "description": "Sort collection by object attribute.",
+              "type": "string"
             },
             "parent": {
               "required": false,
               "default": [
 
               ],
-              "description": "Limit result set to resources of specific parent ids."
+              "description": "Limit result set to comments of specific parent IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "parent_exclude": {
               "required": false,
               "default": [
 
               ],
-              "description": "Ensure result set excludes specific parent ids."
+              "description": "Ensure result set excludes specific parent IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "post": {
               "required": false,
               "default": [
 
               ],
-              "description": "Limit result set to resources assigned to specific post ids."
+              "description": "Limit result set to comments assigned to specific post IDs.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "status": {
               "required": false,
               "default": "approve",
-              "description": "Limit result set to comments assigned a specific status. Requires authorization."
+              "description": "Limit result set to comments assigned a specific status. Requires authorization.",
+              "type": "string"
             },
             "type": {
               "required": false,
               "default": "comment",
-              "description": "Limit result set to comments assigned a specific type. Requires authorization."
+              "description": "Limit result set to comments assigned a specific type. Requires authorization.",
+              "type": "string"
+            },
+            "password": {
+              "required": false,
+              "description": "The password for the post if it is password protected.",
+              "type": "string"
             }
           }
         },
@@ -142,61 +183,70 @@
           "args": {
             "author": {
               "required": false,
-              "description": "The id of the user object, if author was a user."
+              "description": "The ID of the user object, if author was a user.",
+              "type": "integer"
             },
             "author_email": {
               "required": false,
-              "description": "Email address for the object author."
+              "description": "Email address for the object author.",
+              "type": "string"
             },
             "author_ip": {
               "required": false,
-              "default": "127.0.0.1",
-              "description": "IP address for the object author."
+              "description": "IP address for the object author.",
+              "type": "string"
             },
             "author_name": {
               "required": false,
-              "default": "",
-              "description": "Display name for the object author."
+              "description": "Display name for the object author.",
+              "type": "string"
             },
             "author_url": {
               "required": false,
-              "description": "URL for the object author."
+              "description": "URL for the object author.",
+              "type": "string"
+            },
+            "author_user_agent": {
+              "required": false,
+              "description": "User agent for the object author.",
+              "type": "string"
             },
             "content": {
               "required": false,
-              "default": "",
-              "description": "The content for the object."
+              "description": "The content for the object.",
+              "type": "object"
             },
             "date": {
               "required": false,
-              "description": "The date the object was published."
+              "description": "The date the object was published, in the site's timezone.",
+              "type": "string"
             },
             "date_gmt": {
               "required": false,
-              "description": "The date the object was published as GMT."
-            },
-            "karma": {
-              "required": false,
-              "description": "Karma for the object."
+              "description": "The date the object was published, as GMT.",
+              "type": "string"
             },
             "parent": {
               "required": false,
               "default": 0,
-              "description": "The id for the parent of the object."
+              "description": "The ID for the parent of the object.",
+              "type": "integer"
             },
             "post": {
               "required": false,
               "default": 0,
-              "description": "The id of the associated post object."
+              "description": "The ID of the associated post object.",
+              "type": "integer"
             },
             "status": {
               "required": false,
-              "description": "State of the object."
+              "description": "State of the object.",
+              "type": "string"
             },
-            "type": {
+            "meta": {
               "required": false,
-              "default": "",
-              "description": "Type of Comment for the object."
+              "description": "Meta fields.",
+              "type": "object"
             }
           }
         }
@@ -217,7 +267,7 @@
             "readonly": true
           },
           "author": {
-            "description": "The id of the user object, if author was a user.",
+            "description": "The ID of the user object, if author was a user.",
             "type": "integer",
             "context": [
               "view",
@@ -236,7 +286,7 @@
           "author_ip": {
             "description": "IP address for the object author.",
             "type": "string",
-            "format": "ipv4",
+            "format": "ip",
             "context": [
               "edit"
             ]
@@ -265,8 +315,7 @@
             "type": "string",
             "context": [
               "edit"
-            ],
-            "readonly": true
+            ]
           },
           "content": {
             "description": "The content for the object.",
@@ -291,12 +340,13 @@
                   "view",
                   "edit",
                   "embed"
-                ]
+                ],
+                "readonly": true
               }
             }
           },
           "date": {
-            "description": "The date the object was published.",
+            "description": "The date the object was published, in the site's timezone.",
             "type": "string",
             "format": "date-time",
             "context": [
@@ -306,18 +356,11 @@
             ]
           },
           "date_gmt": {
-            "description": "The date the object was published as GMT.",
+            "description": "The date the object was published, as GMT.",
             "type": "string",
             "format": "date-time",
             "context": [
               "view",
-              "edit"
-            ]
-          },
-          "karma": {
-            "description": "Karma for the object.",
-            "type": "integer",
-            "context": [
               "edit"
             ]
           },
@@ -333,21 +376,23 @@
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the object.",
+            "description": "The ID for the parent of the object.",
             "type": "integer",
             "context": [
               "view",
               "edit",
               "embed"
-            ]
+            ],
+            "default": 0
           },
           "post": {
-            "description": "The id of the associated post object.",
+            "description": "The ID of the associated post object.",
             "type": "integer",
             "context": [
               "view",
               "edit"
-            ]
+            ],
+            "default": 0
           },
           "status": {
             "description": "State of the object.",
@@ -364,7 +409,8 @@
               "view",
               "edit",
               "embed"
-            ]
+            ],
+            "readonly": true
           },
           "author_avatar_urls": {
             "description": "Avatar URLs for the object author.",
@@ -407,6 +453,17 @@
                 ]
               }
             }
+          },
+          "meta": {
+            "description": "Meta fields.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": [
+
+            ]
           }
         }
       },
@@ -430,6 +487,11 @@
             "GET"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the object.",
+              "type": "integer"
+            },
             "context": {
               "required": false,
               "default": "view",
@@ -438,7 +500,13 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            },
+            "password": {
+              "required": false,
+              "description": "The password for the parent post of the comment (if the post is password protected).",
+              "type": "string"
             }
           }
         },
@@ -449,57 +517,75 @@
             "PATCH"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the object.",
+              "type": "integer"
+            },
             "author": {
               "required": false,
-              "description": "The id of the user object, if author was a user."
+              "description": "The ID of the user object, if author was a user.",
+              "type": "integer"
             },
             "author_email": {
               "required": false,
-              "description": "Email address for the object author."
+              "description": "Email address for the object author.",
+              "type": "string"
             },
             "author_ip": {
               "required": false,
-              "description": "IP address for the object author."
+              "description": "IP address for the object author.",
+              "type": "string"
             },
             "author_name": {
               "required": false,
-              "description": "Display name for the object author."
+              "description": "Display name for the object author.",
+              "type": "string"
             },
             "author_url": {
               "required": false,
-              "description": "URL for the object author."
+              "description": "URL for the object author.",
+              "type": "string"
+            },
+            "author_user_agent": {
+              "required": false,
+              "description": "User agent for the object author.",
+              "type": "string"
             },
             "content": {
               "required": false,
-              "description": "The content for the object."
+              "description": "The content for the object.",
+              "type": "object"
             },
             "date": {
               "required": false,
-              "description": "The date the object was published."
+              "description": "The date the object was published, in the site's timezone.",
+              "type": "string"
             },
             "date_gmt": {
               "required": false,
-              "description": "The date the object was published as GMT."
-            },
-            "karma": {
-              "required": false,
-              "description": "Karma for the object."
+              "description": "The date the object was published, as GMT.",
+              "type": "string"
             },
             "parent": {
               "required": false,
-              "description": "The id for the parent of the object."
+              "description": "The ID for the parent of the object.",
+              "type": "integer"
             },
             "post": {
               "required": false,
-              "description": "The id of the associated post object."
+              "description": "The ID of the associated post object.",
+              "type": "integer"
             },
             "status": {
               "required": false,
-              "description": "State of the object."
+              "description": "State of the object.",
+              "type": "string"
             },
-            "type": {
+            "meta": {
               "required": false,
-              "description": "Type of Comment for the object."
+              "description": "Meta fields.",
+              "type": "object"
             }
           }
         },
@@ -508,10 +594,21 @@
             "DELETE"
           ],
           "args": {
+            "id": {
+              "required": false,
+              "description": "Unique identifier for the object.",
+              "type": "integer"
+            },
             "force": {
               "required": false,
               "default": false,
-              "description": "Whether to bypass trash and force deletion."
+              "description": "Whether to bypass trash and force deletion.",
+              "type": "boolean"
+            },
+            "password": {
+              "required": false,
+              "description": "The password for the parent post of the comment (if the post is password protected).",
+              "type": "string"
             }
           }
         }
@@ -532,7 +629,7 @@
             "readonly": true
           },
           "author": {
-            "description": "The id of the user object, if author was a user.",
+            "description": "The ID of the user object, if author was a user.",
             "type": "integer",
             "context": [
               "view",
@@ -551,7 +648,7 @@
           "author_ip": {
             "description": "IP address for the object author.",
             "type": "string",
-            "format": "ipv4",
+            "format": "ip",
             "context": [
               "edit"
             ]
@@ -580,8 +677,7 @@
             "type": "string",
             "context": [
               "edit"
-            ],
-            "readonly": true
+            ]
           },
           "content": {
             "description": "The content for the object.",
@@ -606,12 +702,13 @@
                   "view",
                   "edit",
                   "embed"
-                ]
+                ],
+                "readonly": true
               }
             }
           },
           "date": {
-            "description": "The date the object was published.",
+            "description": "The date the object was published, in the site's timezone.",
             "type": "string",
             "format": "date-time",
             "context": [
@@ -621,18 +718,11 @@
             ]
           },
           "date_gmt": {
-            "description": "The date the object was published as GMT.",
+            "description": "The date the object was published, as GMT.",
             "type": "string",
             "format": "date-time",
             "context": [
               "view",
-              "edit"
-            ]
-          },
-          "karma": {
-            "description": "Karma for the object.",
-            "type": "integer",
-            "context": [
               "edit"
             ]
           },
@@ -648,21 +738,23 @@
             "readonly": true
           },
           "parent": {
-            "description": "The id for the parent of the object.",
+            "description": "The ID for the parent of the object.",
             "type": "integer",
             "context": [
               "view",
               "edit",
               "embed"
-            ]
+            ],
+            "default": 0
           },
           "post": {
-            "description": "The id of the associated post object.",
+            "description": "The ID of the associated post object.",
             "type": "integer",
             "context": [
               "view",
               "edit"
-            ]
+            ],
+            "default": 0
           },
           "status": {
             "description": "State of the object.",
@@ -679,7 +771,8 @@
               "view",
               "edit",
               "embed"
-            ]
+            ],
+            "readonly": true
           },
           "author_avatar_urls": {
             "description": "Avatar URLs for the object author.",
@@ -722,6 +815,17 @@
                 ]
               }
             }
+          },
+          "meta": {
+            "description": "Meta fields.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": [
+
+            ]
           }
         }
       },
@@ -744,7 +848,7 @@
         "readonly": true
       },
       "author": {
-        "description": "The id of the user object, if author was a user.",
+        "description": "The ID of the user object, if author was a user.",
         "type": "integer",
         "context": [
           "view",
@@ -763,7 +867,7 @@
       "author_ip": {
         "description": "IP address for the object author.",
         "type": "string",
-        "format": "ipv4",
+        "format": "ip",
         "context": [
           "edit"
         ]
@@ -792,8 +896,7 @@
         "type": "string",
         "context": [
           "edit"
-        ],
-        "readonly": true
+        ]
       },
       "content": {
         "description": "The content for the object.",
@@ -818,12 +921,13 @@
               "view",
               "edit",
               "embed"
-            ]
+            ],
+            "readonly": true
           }
         }
       },
       "date": {
-        "description": "The date the object was published.",
+        "description": "The date the object was published, in the site's timezone.",
         "type": "string",
         "format": "date-time",
         "context": [
@@ -833,18 +937,11 @@
         ]
       },
       "date_gmt": {
-        "description": "The date the object was published as GMT.",
+        "description": "The date the object was published, as GMT.",
         "type": "string",
         "format": "date-time",
         "context": [
           "view",
-          "edit"
-        ]
-      },
-      "karma": {
-        "description": "Karma for the object.",
-        "type": "integer",
-        "context": [
           "edit"
         ]
       },
@@ -860,21 +957,23 @@
         "readonly": true
       },
       "parent": {
-        "description": "The id for the parent of the object.",
+        "description": "The ID for the parent of the object.",
         "type": "integer",
         "context": [
           "view",
           "edit",
           "embed"
-        ]
+        ],
+        "default": 0
       },
       "post": {
-        "description": "The id of the associated post object.",
+        "description": "The ID of the associated post object.",
         "type": "integer",
         "context": [
           "view",
           "edit"
-        ]
+        ],
+        "default": 0
       },
       "status": {
         "description": "State of the object.",
@@ -891,7 +990,8 @@
           "view",
           "edit",
           "embed"
-        ]
+        ],
+        "readonly": true
       },
       "author_avatar_urls": {
         "description": "Avatar URLs for the object author.",
@@ -934,6 +1034,17 @@
             ]
           }
         }
+      },
+      "meta": {
+        "description": "Meta fields.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit"
+        ],
+        "properties": [
+
+        ]
       }
     }
   }
