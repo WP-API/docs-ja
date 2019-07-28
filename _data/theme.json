@@ -1,0 +1,121 @@
+{
+  "name": "theme",
+  "routes": {
+    "/wp/v2/themes": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "context": {
+              "required": false,
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            },
+            "page": {
+              "required": false,
+              "default": 1,
+              "description": "Current page of the collection.",
+              "type": "integer"
+            },
+            "per_page": {
+              "required": false,
+              "default": 10,
+              "description": "Maximum number of items to be returned in result set.",
+              "type": "integer"
+            },
+            "search": {
+              "required": false,
+              "description": "Limit results to those matching a string.",
+              "type": "string"
+            },
+            "status": {
+              "required": true,
+              "description": "Limit result set to themes assigned one or more statuses.",
+              "type": "array",
+              "items": {
+                "enum": [
+                  "active"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "theme",
+        "type": "object",
+        "properties": {
+          "theme_supports": {
+            "description": "Features supported by this theme.",
+            "type": "array",
+            "readonly": true,
+            "properties": {
+              "formats": {
+                "description": "Post formats supported.",
+                "type": "array",
+                "readonly": true
+              },
+              "post-thumbnails": {
+                "description": "Whether the theme supports post thumbnails.",
+                "type": [
+                  "array",
+                  "bool"
+                ],
+                "readonly": true
+              },
+              "responsive-embeds": {
+                "description": "Whether the theme supports responsive embedded content.",
+                "type": "bool",
+                "readonly": true
+              }
+            }
+          }
+        }
+      },
+      "_links": {
+        "self": "https://demo.wp-api.org/wp-json/wp/v2/themes"
+      },
+      "nicename": "/wp/v2/themes"
+    }
+  },
+  "schema": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "theme",
+    "type": "object",
+    "properties": {
+      "theme_supports": {
+        "description": "Features supported by this theme.",
+        "type": "array",
+        "readonly": true,
+        "properties": {
+          "formats": {
+            "description": "Post formats supported.",
+            "type": "array",
+            "readonly": true
+          },
+          "post-thumbnails": {
+            "description": "Whether the theme supports post thumbnails.",
+            "type": [
+              "array",
+              "bool"
+            ],
+            "readonly": true
+          },
+          "responsive-embeds": {
+            "description": "Whether the theme supports responsive embedded content.",
+            "type": "bool",
+            "readonly": true
+          }
+        }
+      }
+    }
+  }
+}

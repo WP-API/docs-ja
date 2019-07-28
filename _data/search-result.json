@@ -1,0 +1,194 @@
+{
+  "name": "search-result",
+  "routes": {
+    "/wp/v2/search": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "view",
+                "embed"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            },
+            "page": {
+              "required": false,
+              "default": 1,
+              "description": "Current page of the collection.",
+              "type": "integer"
+            },
+            "per_page": {
+              "required": false,
+              "default": 10,
+              "description": "Maximum number of items to be returned in result set.",
+              "type": "integer"
+            },
+            "search": {
+              "required": false,
+              "description": "Limit results to those matching a string.",
+              "type": "string"
+            },
+            "type": {
+              "required": false,
+              "default": "post",
+              "enum": [
+                "post"
+              ],
+              "description": "Limit results to items of an object type.",
+              "type": "string"
+            },
+            "subtype": {
+              "required": false,
+              "default": "any",
+              "description": "Limit results to items of one or more object subtypes.",
+              "type": "array",
+              "items": {
+                "enum": [
+                  "post",
+                  "page",
+                  "any"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "search-result",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "title": {
+            "description": "The title for the object.",
+            "type": "string",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "url": {
+            "description": "URL to the object.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "type": {
+            "description": "Object type.",
+            "type": "string",
+            "enum": [
+              "post"
+            ],
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "subtype": {
+            "description": "Object subtype.",
+            "type": "string",
+            "enum": [
+              "post",
+              "page"
+            ],
+            "context": [
+              "view",
+              "embed"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "_links": {
+        "self": "https://demo.wp-api.org/wp-json/wp/v2/search"
+      },
+      "nicename": "/wp/v2/search"
+    }
+  },
+  "schema": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "search-result",
+    "type": "object",
+    "properties": {
+      "id": {
+        "description": "Unique identifier for the object.",
+        "type": "integer",
+        "context": [
+          "view",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "title": {
+        "description": "The title for the object.",
+        "type": "string",
+        "context": [
+          "view",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "url": {
+        "description": "URL to the object.",
+        "type": "string",
+        "format": "uri",
+        "context": [
+          "view",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "type": {
+        "description": "Object type.",
+        "type": "string",
+        "enum": [
+          "post"
+        ],
+        "context": [
+          "view",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "subtype": {
+        "description": "Object subtype.",
+        "type": "string",
+        "enum": [
+          "post",
+          "page"
+        ],
+        "context": [
+          "view",
+          "embed"
+        ],
+        "readonly": true
+      }
+    }
+  }
+}

@@ -1,0 +1,701 @@
+{
+  "name": "wp_block-revision",
+  "routes": {
+    "/wp/v2/blocks/<id>/autosaves": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "parent": {
+              "required": false,
+              "description": "The ID for the parent of the object.",
+              "type": "integer"
+            },
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "view",
+                "embed",
+                "edit"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "methods": [
+            "POST"
+          ],
+          "args": {
+            "parent": {
+              "required": false,
+              "description": "The ID for the parent of the object.",
+              "type": "integer"
+            },
+            "date": {
+              "required": false,
+              "description": "The date the object was published, in the site's timezone.",
+              "type": "string"
+            },
+            "date_gmt": {
+              "required": false,
+              "description": "The date the object was published, as GMT.",
+              "type": "string"
+            },
+            "slug": {
+              "required": false,
+              "description": "An alphanumeric identifier for the object unique to its type.",
+              "type": "string"
+            },
+            "status": {
+              "required": false,
+              "enum": [
+                "publish",
+                "future",
+                "draft",
+                "pending",
+                "private"
+              ],
+              "description": "A named status for the object.",
+              "type": "string"
+            },
+            "password": {
+              "required": false,
+              "description": "A password to protect access to the content and excerpt.",
+              "type": "string"
+            },
+            "title": {
+              "required": false,
+              "description": "The title for the object.",
+              "type": "object"
+            },
+            "content": {
+              "required": false,
+              "description": "The content for the object.",
+              "type": "object"
+            },
+            "template": {
+              "required": false,
+              "description": "The theme file to use to display the object.",
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "wp_block-revision",
+        "type": "object",
+        "properties": {
+          "author": {
+            "description": "The ID for the author of the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "date": {
+            "description": "The date the object was published, in the site's timezone.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "date_gmt": {
+            "description": "The date the object was published, as GMT.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "guid": {
+            "description": "The globally unique identifier for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true,
+            "properties": {
+              "raw": {
+                "description": "GUID for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "rendered": {
+                "description": "GUID for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "id": {
+            "description": "Unique identifier for the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "modified": {
+            "description": "The date the object was last modified, in the site's timezone.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "modified_gmt": {
+            "description": "The date the object was last modified, as GMT.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "parent": {
+            "description": "The ID for the parent of the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "slug": {
+            "description": "An alphanumeric identifier for the object unique to its type.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "title": {
+            "description": "The title for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "properties": {
+              "raw": {
+                "description": "Title for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ]
+              },
+              "rendered": {
+                "description": "HTML title for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit",
+                  "embed"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "content": {
+            "description": "The content for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": {
+              "raw": {
+                "description": "Content for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ]
+              },
+              "rendered": {
+                "description": "HTML content for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "block_version": {
+                "description": "Version of the content block format used by the object.",
+                "type": "integer",
+                "context": [
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "protected": {
+                "description": "Whether the content is protected with a password.",
+                "type": "boolean",
+                "context": [
+                  "view",
+                  "edit",
+                  "embed"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "preview_link": {
+            "description": "Preview link for the post.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "nicename": "/wp/v2/blocks/&lt;id&gt;/autosaves"
+    },
+    "/wp/v2/blocks/<parent>/autosaves/<id>": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "parent": {
+              "required": false,
+              "description": "The ID for the parent of the object.",
+              "type": "integer"
+            },
+            "id": {
+              "required": false,
+              "description": "The ID for the object.",
+              "type": "integer"
+            },
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "view",
+                "embed",
+                "edit"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "wp_block-revision",
+        "type": "object",
+        "properties": {
+          "author": {
+            "description": "The ID for the author of the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "date": {
+            "description": "The date the object was published, in the site's timezone.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "date_gmt": {
+            "description": "The date the object was published, as GMT.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "guid": {
+            "description": "The globally unique identifier for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true,
+            "properties": {
+              "raw": {
+                "description": "GUID for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "rendered": {
+                "description": "GUID for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "id": {
+            "description": "Unique identifier for the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "modified": {
+            "description": "The date the object was last modified, in the site's timezone.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "modified_gmt": {
+            "description": "The date the object was last modified, as GMT.",
+            "type": "string",
+            "format": "date-time",
+            "context": [
+              "view",
+              "edit"
+            ]
+          },
+          "parent": {
+            "description": "The ID for the parent of the object.",
+            "type": "integer",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "slug": {
+            "description": "An alphanumeric identifier for the object unique to its type.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ]
+          },
+          "title": {
+            "description": "The title for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "properties": {
+              "raw": {
+                "description": "Title for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ]
+              },
+              "rendered": {
+                "description": "HTML title for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit",
+                  "embed"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "content": {
+            "description": "The content for the object.",
+            "type": "object",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "properties": {
+              "raw": {
+                "description": "Content for the object, as it exists in the database.",
+                "type": "string",
+                "context": [
+                  "edit"
+                ]
+              },
+              "rendered": {
+                "description": "HTML content for the object, transformed for display.",
+                "type": "string",
+                "context": [
+                  "view",
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "block_version": {
+                "description": "Version of the content block format used by the object.",
+                "type": "integer",
+                "context": [
+                  "edit"
+                ],
+                "readonly": true
+              },
+              "protected": {
+                "description": "Whether the content is protected with a password.",
+                "type": "boolean",
+                "context": [
+                  "view",
+                  "edit",
+                  "embed"
+                ],
+                "readonly": true
+              }
+            }
+          },
+          "preview_link": {
+            "description": "Preview link for the post.",
+            "type": "string",
+            "format": "uri",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "nicename": "/wp/v2/blocks/&lt;parent&gt;/autosaves/&lt;id&gt;"
+    }
+  },
+  "schema": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "wp_block-revision",
+    "type": "object",
+    "properties": {
+      "author": {
+        "description": "The ID for the author of the object.",
+        "type": "integer",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ]
+      },
+      "date": {
+        "description": "The date the object was published, in the site's timezone.",
+        "type": "string",
+        "format": "date-time",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ]
+      },
+      "date_gmt": {
+        "description": "The date the object was published, as GMT.",
+        "type": "string",
+        "format": "date-time",
+        "context": [
+          "view",
+          "edit"
+        ]
+      },
+      "guid": {
+        "description": "The globally unique identifier for the object.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit"
+        ],
+        "readonly": true,
+        "properties": {
+          "raw": {
+            "description": "GUID for the object, as it exists in the database.",
+            "type": "string",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
+          "rendered": {
+            "description": "GUID for the object, transformed for display.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "id": {
+        "description": "Unique identifier for the object.",
+        "type": "integer",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ]
+      },
+      "modified": {
+        "description": "The date the object was last modified, in the site's timezone.",
+        "type": "string",
+        "format": "date-time",
+        "context": [
+          "view",
+          "edit"
+        ]
+      },
+      "modified_gmt": {
+        "description": "The date the object was last modified, as GMT.",
+        "type": "string",
+        "format": "date-time",
+        "context": [
+          "view",
+          "edit"
+        ]
+      },
+      "parent": {
+        "description": "The ID for the parent of the object.",
+        "type": "integer",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ]
+      },
+      "slug": {
+        "description": "An alphanumeric identifier for the object unique to its type.",
+        "type": "string",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ]
+      },
+      "title": {
+        "description": "The title for the object.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ],
+        "properties": {
+          "raw": {
+            "description": "Title for the object, as it exists in the database.",
+            "type": "string",
+            "context": [
+              "edit"
+            ]
+          },
+          "rendered": {
+            "description": "HTML title for the object, transformed for display.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "content": {
+        "description": "The content for the object.",
+        "type": "object",
+        "context": [
+          "view",
+          "edit"
+        ],
+        "properties": {
+          "raw": {
+            "description": "Content for the object, as it exists in the database.",
+            "type": "string",
+            "context": [
+              "edit"
+            ]
+          },
+          "rendered": {
+            "description": "HTML content for the object, transformed for display.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true
+          },
+          "block_version": {
+            "description": "Version of the content block format used by the object.",
+            "type": "integer",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
+          "protected": {
+            "description": "Whether the content is protected with a password.",
+            "type": "boolean",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          }
+        }
+      },
+      "preview_link": {
+        "description": "Preview link for the post.",
+        "type": "string",
+        "format": "uri",
+        "context": [
+          "edit"
+        ],
+        "readonly": true
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "name": "rendered-block",
+  "routes": {
+    "/wp/v2/block-renderer/<name>": {
+      "namespace": "wp/v2",
+      "methods": [
+        "GET"
+      ],
+      "endpoints": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "args": {
+            "name": {
+              "required": false,
+              "description": "Unique registered name for the block.",
+              "type": "string"
+            },
+            "context": {
+              "required": false,
+              "default": "view",
+              "enum": [
+                "edit"
+              ],
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
+            },
+            "attributes": {
+              "required": false,
+              "default": [
+
+              ],
+              "description": "Attributes for core/tag-cloud block",
+              "type": "object"
+            },
+            "post_id": {
+              "required": false,
+              "description": "ID of the post context.",
+              "type": "integer"
+            }
+          }
+        }
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/schema#",
+        "title": "rendered-block",
+        "type": "object",
+        "properties": {
+          "rendered": {
+            "description": "The rendered block.",
+            "type": "string",
+            "required": true,
+            "context": [
+              "edit"
+            ]
+          }
+        }
+      },
+      "nicename": "/wp/v2/block-renderer/&lt;name&gt;"
+    }
+  },
+  "schema": {
+    "$schema": "http://json-schema.org/schema#",
+    "title": "rendered-block",
+    "type": "object",
+    "properties": {
+      "rendered": {
+        "description": "The rendered block.",
+        "type": "string",
+        "required": true,
+        "context": [
+          "edit"
+        ]
+      }
+    }
+  }
+}

@@ -20,7 +20,8 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             }
           }
         }
@@ -31,15 +32,15 @@
         "type": "object",
         "properties": {
           "capabilities": {
-            "description": "All capabilities used by the resource.",
-            "type": "array",
+            "description": "All capabilities used by the post type.",
+            "type": "object",
             "context": [
               "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the resource.",
+            "description": "A human-readable description of the post type.",
             "type": "string",
             "context": [
               "view",
@@ -48,7 +49,7 @@
             "readonly": true
           },
           "hierarchical": {
-            "description": "Whether or not the resource should have children.",
+            "description": "Whether or not the post type should have children.",
             "type": "boolean",
             "context": [
               "view",
@@ -56,8 +57,16 @@
             ],
             "readonly": true
           },
+          "viewable": {
+            "description": "Whether or not the post type can be viewed.",
+            "type": "boolean",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
           "labels": {
-            "description": "Human-readable labels for the resource for various contexts.",
+            "description": "Human-readable labels for the post type for various contexts.",
             "type": "object",
             "context": [
               "edit"
@@ -65,7 +74,7 @@
             "readonly": true
           },
           "name": {
-            "description": "The title for the resource.",
+            "description": "The title for the post type.",
             "type": "string",
             "context": [
               "view",
@@ -75,7 +84,37 @@
             "readonly": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource.",
+            "description": "An alphanumeric identifier for the post type.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "supports": {
+            "description": "All features, supported by the post type.",
+            "type": "object",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
+          "taxonomies": {
+            "description": "Taxonomies associated with post type.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true
+          },
+          "rest_base": {
+            "description": "REST base route for the post type.",
             "type": "string",
             "context": [
               "view",
@@ -102,6 +141,11 @@
             "GET"
           ],
           "args": {
+            "type": {
+              "required": false,
+              "description": "An alphanumeric identifier for the post type.",
+              "type": "string"
+            },
             "context": {
               "required": false,
               "default": "view",
@@ -110,7 +154,8 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             }
           }
         }
@@ -121,15 +166,15 @@
         "type": "object",
         "properties": {
           "capabilities": {
-            "description": "All capabilities used by the resource.",
-            "type": "array",
+            "description": "All capabilities used by the post type.",
+            "type": "object",
             "context": [
               "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the resource.",
+            "description": "A human-readable description of the post type.",
             "type": "string",
             "context": [
               "view",
@@ -138,7 +183,7 @@
             "readonly": true
           },
           "hierarchical": {
-            "description": "Whether or not the resource should have children.",
+            "description": "Whether or not the post type should have children.",
             "type": "boolean",
             "context": [
               "view",
@@ -146,8 +191,16 @@
             ],
             "readonly": true
           },
+          "viewable": {
+            "description": "Whether or not the post type can be viewed.",
+            "type": "boolean",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
           "labels": {
-            "description": "Human-readable labels for the resource for various contexts.",
+            "description": "Human-readable labels for the post type for various contexts.",
             "type": "object",
             "context": [
               "edit"
@@ -155,7 +208,7 @@
             "readonly": true
           },
           "name": {
-            "description": "The title for the resource.",
+            "description": "The title for the post type.",
             "type": "string",
             "context": [
               "view",
@@ -165,7 +218,37 @@
             "readonly": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource.",
+            "description": "An alphanumeric identifier for the post type.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "supports": {
+            "description": "All features, supported by the post type.",
+            "type": "object",
+            "context": [
+              "edit"
+            ],
+            "readonly": true
+          },
+          "taxonomies": {
+            "description": "Taxonomies associated with post type.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "context": [
+              "view",
+              "edit"
+            ],
+            "readonly": true
+          },
+          "rest_base": {
+            "description": "REST base route for the post type.",
             "type": "string",
             "context": [
               "view",
@@ -185,15 +268,15 @@
     "type": "object",
     "properties": {
       "capabilities": {
-        "description": "All capabilities used by the resource.",
-        "type": "array",
+        "description": "All capabilities used by the post type.",
+        "type": "object",
         "context": [
           "edit"
         ],
         "readonly": true
       },
       "description": {
-        "description": "A human-readable description of the resource.",
+        "description": "A human-readable description of the post type.",
         "type": "string",
         "context": [
           "view",
@@ -202,7 +285,7 @@
         "readonly": true
       },
       "hierarchical": {
-        "description": "Whether or not the resource should have children.",
+        "description": "Whether or not the post type should have children.",
         "type": "boolean",
         "context": [
           "view",
@@ -210,8 +293,16 @@
         ],
         "readonly": true
       },
+      "viewable": {
+        "description": "Whether or not the post type can be viewed.",
+        "type": "boolean",
+        "context": [
+          "edit"
+        ],
+        "readonly": true
+      },
       "labels": {
-        "description": "Human-readable labels for the resource for various contexts.",
+        "description": "Human-readable labels for the post type for various contexts.",
         "type": "object",
         "context": [
           "edit"
@@ -219,7 +310,7 @@
         "readonly": true
       },
       "name": {
-        "description": "The title for the resource.",
+        "description": "The title for the post type.",
         "type": "string",
         "context": [
           "view",
@@ -229,7 +320,37 @@
         "readonly": true
       },
       "slug": {
-        "description": "An alphanumeric identifier for the resource.",
+        "description": "An alphanumeric identifier for the post type.",
+        "type": "string",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "supports": {
+        "description": "All features, supported by the post type.",
+        "type": "object",
+        "context": [
+          "edit"
+        ],
+        "readonly": true
+      },
+      "taxonomies": {
+        "description": "Taxonomies associated with post type.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "context": [
+          "view",
+          "edit"
+        ],
+        "readonly": true
+      },
+      "rest_base": {
+        "description": "REST base route for the post type.",
         "type": "string",
         "context": [
           "view",

@@ -20,11 +20,13 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             },
             "type": {
               "required": false,
-              "description": "Limit results to resources associated with a specific post type."
+              "description": "Limit results to taxonomies associated with a specific post type.",
+              "type": "string"
             }
           }
         }
@@ -35,15 +37,15 @@
         "type": "object",
         "properties": {
           "capabilities": {
-            "description": "All capabilities used by the resource.",
-            "type": "array",
+            "description": "All capabilities used by the taxonomy.",
+            "type": "object",
             "context": [
               "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the resource.",
+            "description": "A human-readable description of the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -52,7 +54,7 @@
             "readonly": true
           },
           "hierarchical": {
-            "description": "Whether or not the resource should have children.",
+            "description": "Whether or not the taxonomy should have children.",
             "type": "boolean",
             "context": [
               "view",
@@ -61,7 +63,7 @@
             "readonly": true
           },
           "labels": {
-            "description": "Human-readable labels for the resource for various contexts.",
+            "description": "Human-readable labels for the taxonomy for various contexts.",
             "type": "object",
             "context": [
               "edit"
@@ -69,7 +71,7 @@
             "readonly": true
           },
           "name": {
-            "description": "The title for the resource.",
+            "description": "The title for the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -79,7 +81,7 @@
             "readonly": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource.",
+            "description": "An alphanumeric identifier for the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -97,13 +99,60 @@
             "readonly": true
           },
           "types": {
-            "description": "Types associated with resource.",
+            "description": "Types associated with the taxonomy.",
             "type": "array",
+            "items": {
+              "type": "string"
+            },
             "context": [
               "view",
               "edit"
             ],
             "readonly": true
+          },
+          "rest_base": {
+            "description": "REST base route for the taxonomy.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "visibility": {
+            "description": "The visibility settings for the taxonomy.",
+            "type": "object",
+            "context": [
+              "edit"
+            ],
+            "readonly": true,
+            "properties": {
+              "public": {
+                "description": "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.",
+                "type": "boolean"
+              },
+              "publicly_queryable": {
+                "description": "Whether the taxonomy is publicly queryable.",
+                "type": "boolean"
+              },
+              "show_ui": {
+                "description": "Whether to generate a default UI for managing this taxonomy.",
+                "type": "boolean"
+              },
+              "show_admin_column": {
+                "description": "Whether to allow automatic creation of taxonomy columns on associated post-types table.",
+                "type": "boolean"
+              },
+              "show_in_nav_menus": {
+                "description": "Whether to make the taxonomy available for selection in navigation menus.",
+                "type": "boolean"
+              },
+              "show_in_quick_edit": {
+                "description": "Whether to show the taxonomy in the quick/bulk edit panel.",
+                "type": "boolean"
+              }
+            }
           }
         }
       },
@@ -123,6 +172,11 @@
             "GET"
           ],
           "args": {
+            "taxonomy": {
+              "required": false,
+              "description": "An alphanumeric identifier for the taxonomy.",
+              "type": "string"
+            },
             "context": {
               "required": false,
               "default": "view",
@@ -131,7 +185,8 @@
                 "embed",
                 "edit"
               ],
-              "description": "Scope under which the request is made; determines fields present in response."
+              "description": "Scope under which the request is made; determines fields present in response.",
+              "type": "string"
             }
           }
         }
@@ -142,15 +197,15 @@
         "type": "object",
         "properties": {
           "capabilities": {
-            "description": "All capabilities used by the resource.",
-            "type": "array",
+            "description": "All capabilities used by the taxonomy.",
+            "type": "object",
             "context": [
               "edit"
             ],
             "readonly": true
           },
           "description": {
-            "description": "A human-readable description of the resource.",
+            "description": "A human-readable description of the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -159,7 +214,7 @@
             "readonly": true
           },
           "hierarchical": {
-            "description": "Whether or not the resource should have children.",
+            "description": "Whether or not the taxonomy should have children.",
             "type": "boolean",
             "context": [
               "view",
@@ -168,7 +223,7 @@
             "readonly": true
           },
           "labels": {
-            "description": "Human-readable labels for the resource for various contexts.",
+            "description": "Human-readable labels for the taxonomy for various contexts.",
             "type": "object",
             "context": [
               "edit"
@@ -176,7 +231,7 @@
             "readonly": true
           },
           "name": {
-            "description": "The title for the resource.",
+            "description": "The title for the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -186,7 +241,7 @@
             "readonly": true
           },
           "slug": {
-            "description": "An alphanumeric identifier for the resource.",
+            "description": "An alphanumeric identifier for the taxonomy.",
             "type": "string",
             "context": [
               "view",
@@ -204,13 +259,60 @@
             "readonly": true
           },
           "types": {
-            "description": "Types associated with resource.",
+            "description": "Types associated with the taxonomy.",
             "type": "array",
+            "items": {
+              "type": "string"
+            },
             "context": [
               "view",
               "edit"
             ],
             "readonly": true
+          },
+          "rest_base": {
+            "description": "REST base route for the taxonomy.",
+            "type": "string",
+            "context": [
+              "view",
+              "edit",
+              "embed"
+            ],
+            "readonly": true
+          },
+          "visibility": {
+            "description": "The visibility settings for the taxonomy.",
+            "type": "object",
+            "context": [
+              "edit"
+            ],
+            "readonly": true,
+            "properties": {
+              "public": {
+                "description": "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.",
+                "type": "boolean"
+              },
+              "publicly_queryable": {
+                "description": "Whether the taxonomy is publicly queryable.",
+                "type": "boolean"
+              },
+              "show_ui": {
+                "description": "Whether to generate a default UI for managing this taxonomy.",
+                "type": "boolean"
+              },
+              "show_admin_column": {
+                "description": "Whether to allow automatic creation of taxonomy columns on associated post-types table.",
+                "type": "boolean"
+              },
+              "show_in_nav_menus": {
+                "description": "Whether to make the taxonomy available for selection in navigation menus.",
+                "type": "boolean"
+              },
+              "show_in_quick_edit": {
+                "description": "Whether to show the taxonomy in the quick/bulk edit panel.",
+                "type": "boolean"
+              }
+            }
           }
         }
       },
@@ -223,15 +325,15 @@
     "type": "object",
     "properties": {
       "capabilities": {
-        "description": "All capabilities used by the resource.",
-        "type": "array",
+        "description": "All capabilities used by the taxonomy.",
+        "type": "object",
         "context": [
           "edit"
         ],
         "readonly": true
       },
       "description": {
-        "description": "A human-readable description of the resource.",
+        "description": "A human-readable description of the taxonomy.",
         "type": "string",
         "context": [
           "view",
@@ -240,7 +342,7 @@
         "readonly": true
       },
       "hierarchical": {
-        "description": "Whether or not the resource should have children.",
+        "description": "Whether or not the taxonomy should have children.",
         "type": "boolean",
         "context": [
           "view",
@@ -249,7 +351,7 @@
         "readonly": true
       },
       "labels": {
-        "description": "Human-readable labels for the resource for various contexts.",
+        "description": "Human-readable labels for the taxonomy for various contexts.",
         "type": "object",
         "context": [
           "edit"
@@ -257,7 +359,7 @@
         "readonly": true
       },
       "name": {
-        "description": "The title for the resource.",
+        "description": "The title for the taxonomy.",
         "type": "string",
         "context": [
           "view",
@@ -267,7 +369,7 @@
         "readonly": true
       },
       "slug": {
-        "description": "An alphanumeric identifier for the resource.",
+        "description": "An alphanumeric identifier for the taxonomy.",
         "type": "string",
         "context": [
           "view",
@@ -285,13 +387,60 @@
         "readonly": true
       },
       "types": {
-        "description": "Types associated with resource.",
+        "description": "Types associated with the taxonomy.",
         "type": "array",
+        "items": {
+          "type": "string"
+        },
         "context": [
           "view",
           "edit"
         ],
         "readonly": true
+      },
+      "rest_base": {
+        "description": "REST base route for the taxonomy.",
+        "type": "string",
+        "context": [
+          "view",
+          "edit",
+          "embed"
+        ],
+        "readonly": true
+      },
+      "visibility": {
+        "description": "The visibility settings for the taxonomy.",
+        "type": "object",
+        "context": [
+          "edit"
+        ],
+        "readonly": true,
+        "properties": {
+          "public": {
+            "description": "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.",
+            "type": "boolean"
+          },
+          "publicly_queryable": {
+            "description": "Whether the taxonomy is publicly queryable.",
+            "type": "boolean"
+          },
+          "show_ui": {
+            "description": "Whether to generate a default UI for managing this taxonomy.",
+            "type": "boolean"
+          },
+          "show_admin_column": {
+            "description": "Whether to allow automatic creation of taxonomy columns on associated post-types table.",
+            "type": "boolean"
+          },
+          "show_in_nav_menus": {
+            "description": "Whether to make the taxonomy available for selection in navigation menus.",
+            "type": "boolean"
+          },
+          "show_in_quick_edit": {
+            "description": "Whether to show the taxonomy in the quick/bulk edit panel.",
+            "type": "boolean"
+          }
+        }
       }
     }
   }
