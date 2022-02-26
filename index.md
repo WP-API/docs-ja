@@ -6,7 +6,7 @@ include_title: No
 
 <div class="hero">
 
-	<img src="{{ site.baseurl }}assets/images/banner.jpg" class="banner" />
+	<img src="{{ site.url }}/assets/images/banner.jpg" class="banner" />
 
 	<p class="subtitle">HTTP REST API で WordPress を自由自在！</p>
 
